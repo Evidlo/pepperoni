@@ -20,7 +20,7 @@ import modules
 class Bot(irc.IRCClient):
 	config = ConfigParser()
 	config.read('settings.ini')
-	quotes = modules.shesaid(config.get('shesaid','quotesFile'),config.get('shesaid','triggers'))
+	quotes = modules.shesaid(config.get('shesaid','quotesFile'),config.get('shesaid','triggers'),int(config.get('shesaid','rate')))
 	modules = [quotes]
 
 	def _get_nickname(self):
@@ -37,10 +37,11 @@ class Bot(irc.IRCClient):
 	def privmsg(self, user, channel, msg):
 		logging.debug("Private Message:",msg)
 		for module in self.modules:
-			for trigger in module.triggers:
-				if re.search(trigger,msg):
-					self.msg(channel,module.run(user,msg))
-					return
+			if module.enabled:
+				for trigger in module.triggers:
+					if re.search(trigger,msg):
+						self.msg(channel,module.run(user,msg))
+						return
 
 class BotFactory(protocol.ClientFactory):
 	protocol = Bot
