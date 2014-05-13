@@ -1,11 +1,18 @@
 from random import choice
+from twisted.internet import reactor
 
 class shesaid(object):
-  def __init__(self,quotesFile,triggers):
-    self.triggers = triggers.split('\n')
-    with open(quotesFile) as quotesFileObj:
-      self.quotes = quotesFileObj.readlines()
+	def __init__(self,quotesFile,triggers,rate):
+		self.enabled = True
+		self.rate = rate
+		self.triggers = triggers.split('\n')
+		with open(quotesFile) as quotesFileObj:
+			self.quotes = quotesFileObj.readlines()
 
-  def run(self,user,msg):
-    return choice(self.quotes)
+	def run(self,user,msg):
+		self.enabled = False
+		reactor.callLater(self.rate,lambda:self.enable())
+		return choice(self.quotes)
 
+	def enable(self):
+		self.enabled = True
