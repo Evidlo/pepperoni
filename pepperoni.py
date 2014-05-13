@@ -18,6 +18,8 @@ import modules
 
 
 class Bot(irc.IRCClient):
+
+	#set up all the modules
 	config = ConfigParser()
 	config.read('settings.ini')
 	quotes = modules.shesaid(config.get('shesaid','quotesFile'),config.get('shesaid','triggers'),int(config.get('shesaid','rate')))
@@ -35,7 +37,10 @@ class Bot(irc.IRCClient):
 		logging.info("Joined %s." % channel)
 
 	def privmsg(self, user, channel, msg):
+
 		logging.debug("Private Message:",msg)
+
+		#check message against triggers for every module
 		for module in self.modules:
 			if module.enabled:
 				for trigger in module.triggers:

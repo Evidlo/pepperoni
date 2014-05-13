@@ -11,6 +11,7 @@ class shesaid(object):
 
 	def run(self,user,msg):
 		self.enabled = False
+		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
 		return choice(self.quotes)
 
