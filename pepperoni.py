@@ -19,11 +19,6 @@ import modules
 
 class Bot(irc.IRCClient):
 
-	#set up all the modules
-	config = ConfigParser()
-	config.read('settings.ini')
-	quotes = modules.shesaid(config.get('shesaid','quotesFile'),config.get('shesaid','triggers'),int(config.get('shesaid','rate')))
-	modules = [quotes]
 
 	def _get_nickname(self):
 		return self.factory.nickname
@@ -32,6 +27,10 @@ class Bot(irc.IRCClient):
 	def signedOn(self):
 		self.join(self.factory.channel)
 		logging.info("Signed on as %s." % self.nickname)
+		#set up all the modules (ignore builtins)
+		myclasses = {}
+		execfile('modules.py',myclasses)
+		self.mymodules = {name:myclass() for name,myclass in myclasses.items() if type(myclass) == type}
 
 	def joined(self, channel):
 		logging.info("Joined %s." % channel)
@@ -41,8 +40,9 @@ class Bot(irc.IRCClient):
 		logging.debug("Private Message:",msg)
 
 		#check message against triggers for every module
-		for module in self.modules:
+		for module in self.mymodules.values():
 			if module.enabled:
+				print 'module enabled'
 				for trigger in module.triggers:
 					if re.search(trigger,msg):
 						self.msg(channel,module.run(user,msg))
