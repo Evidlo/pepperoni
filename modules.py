@@ -1,11 +1,13 @@
-from random import choice
 from twisted.internet import reactor
+from random import choice
 
 class shesaid(object):
-	def __init__(self,quotesFile,triggers,rate):
+	def __init__(self):
 		self.enabled = True
-		self.rate = rate
+		self.rate = 10 
+		triggers = "[Tt]hat'?s what she said"
 		self.triggers = triggers.split('\n')
+		quotesFile = 'quotes.txt'
 		with open(quotesFile) as quotesFileObj:
 			self.quotes = quotesFileObj.readlines()
 
