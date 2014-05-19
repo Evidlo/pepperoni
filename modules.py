@@ -10,9 +10,10 @@ import re
 from datetime import datetime
 
 class module_shesaid(object):
-	def __init__(self,config):
+	def __init__(self,config,bot):
 		self.enabled = True
 		self.rate = int(config.get('shesaid','rate',0))
+		self.bot = bot
 		triggers = config.get('shesaid','triggers')
 		self.triggers = triggers.split('\n')
 		quotesFile = 'quotes.txt'
@@ -22,29 +23,30 @@ class module_shesaid(object):
 	def enable(self):
 		self.enabled = True
 
-	def run(self,bot):
+	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
-		bot.msg(bot.channel,choice(self.quotes))
+		self.bot.msg(self.bot.channel,choice(self.quotes))
 
 
 class module_youtube(object):
-	def __init__(self,config):
+	def __init__(self,config,bot):
 		self.enabled = True
 		self.rate = int(config.get('youtube','rate',0))
+		self.bot = bot
 		triggers = config.get('youtube','triggers')
 		self.triggers = triggers.split('\n')
 
 	def enable(self):
 		self.enabled = True
 
-	def run(self,bot):
+	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
 		
-		id = re.match(".*?v=([a-zA-Z0-9_-]{11}).*",str(bot.chat))
+		id = re.match(".*?v=([a-zA-Z0-9_-]{11}).*",str(self.bot.chat))
 		if id:
 			id = id.group(1)
 			url = 'http://gdata.youtube.com/feeds/api/videos/%s?alt=json&v=2' % id 
@@ -63,38 +65,42 @@ class module_youtube(object):
 				ratings='0'
 			title = video['entry']['title']['$t']
 			views = video['entry']['yt$statistics']['viewCount']
-			bot.msg(bot.channel,u'▷ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ◁'.encode('utf-8'))
+			self.bot.msg(self.bot.channel,u'▷ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ◁'.encode('utf-8'))
 
 
 class module_food(object):
-	def __init__(self,config):
-		self.enabled = False
+	def __init__(self,config,bot):
+		self.enabled = True
 		self.rate = int(config.get('food','rate',0))
+		self.bot = bot
 		triggers = config.get('food','triggers')
 		self.triggers = triggers.split('\n')
 		self.acceptable_courts = ["hillenbrand","ford","wiley","earhart","windsor"]
 		self.acceptable_mealtimes = acceptable_mealtime=["Lunch","Dinner","Breakfast"]
 
 	def enable(self):
-		self.enabled = False
+		self.enabled = True
 	
-	def foodHelp(bot):
-		bot.notice(bot.user," Usage: !food COURT [MEAL] [YYYY-MM-DD]")
-		bot.notice(bot.user," Example usage: !food hillenbrand")
-		bot.notice(bot.user," Example usage: !food hillenbrand lunch 2013-12-29")
+	def foodHelp(self):
+		self.bot.notice(self.bot.user," Usage: !food COURT [MEAL] [YYYY-MM-DD]")
+		self.bot.notice(self.bot.user," Example usage: !food hillenbrand")
+		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch 2013-12-29")
 		return
 
-	def run(self,bot):
+	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
 		
-		params = chat.split(' ')
+		params = self.bot.chat.split(' ')
 
 		if len(params) < 2 or 'help' in params or '-h' in params:
-			foodHelp(bot)
+			self.foodHelp()
 			return
 
+		court = None
+		meal = None
+		day = None
 		for param in params:
 			if param.lower() in self.acceptable_courts:
 				court = param.lower()
@@ -103,7 +109,8 @@ class module_food(object):
 			if re.search('[0-9]{4}-[0-9]{2}-[0-9]{2}',param.lower()):
 				day = datetime.strptime(param,'%Y-%m-%d')
 		if not court:
-			foodHelp(bot)
+			self.foodHelp()
+			return
 		if not meal:
 			time = datetime.now()
 			hour = time.strftime('%H')
@@ -118,6 +125,14 @@ class module_food(object):
 				day = time
 		else:
 			if not day:
-				foodHelp(bot)
+				self.foodHelp()
+				return
 
+		url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
+		json = simplejson.load(urllib.urlopen(url))
 
+		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
+		if not items:
+			items = ['Not Serving']
+		message = court.title() + ' ' + meal.title() + ':' + ', '.join(items[:10])
+		self.bot.msg(self.bot.channel,message)

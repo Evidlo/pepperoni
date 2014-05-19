@@ -30,13 +30,13 @@ class Bot(irc.IRCClient):
 		#set up all the modules (ignore builtins)
 		myclasses = {}
 		execfile('modules.py',myclasses)
-		self.mymodules = {name:myclass(config) for name,myclass in myclasses.items() if name.startswith('module_')}
+		self.mymodules = {name:myclass(config,self) for name,myclass in myclasses.items() if name.startswith('module_')}
 
 	def joined(self, channel):
 		logging.info("Joined %s." % channel)
 
 	def privmsg(self, user, channel, chat):
-		self.user = user
+		self.user = user.split('!')[0]
 		self.channel = channel
 		self.chat = chat
 
@@ -47,7 +47,7 @@ class Bot(irc.IRCClient):
 			if module.enabled:
 				for trigger in module.triggers:
 					if re.search(trigger,chat):
-						module.run(self)
+						module.run()
 						return
 
 class BotFactory(protocol.ClientFactory):
