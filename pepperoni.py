@@ -30,25 +30,24 @@ class Bot(irc.IRCClient):
 		#set up all the modules (ignore builtins)
 		myclasses = {}
 		execfile('modules.py',myclasses)
-		for a,b in myclasses.items():
-			print a+":"+str(type(b))
-		sys.exit(0)
-		self.mymodules = {name:myclass(config) for name,myclass in myclasses.items() if type(myclass) == type}
+		self.mymodules = {name:myclass(config) for name,myclass in myclasses.items() if name.startswith('module_')}
 
 	def joined(self, channel):
 		logging.info("Joined %s." % channel)
 
-	def privmsg(self, user, channel, msg):
+	def privmsg(self, user, channel, chat):
+		self.user = user
+		self.channel = channel
+		self.chat = chat
 
-		logging.debug("Private Message:",msg)
+		logging.debug("Private Message:",chat)
 
 		#check message against triggers for every module
 		for module in self.mymodules.values():
 			if module.enabled:
-				print 'module enabled'
 				for trigger in module.triggers:
-					if re.search(trigger,msg):
-						self.msg(channel,module.run(user,msg))
+					if re.search(trigger,chat):
+						module.run(self)
 						return
 
 class BotFactory(protocol.ClientFactory):
