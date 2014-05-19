@@ -26,7 +26,7 @@ class module_reload(object):
 		reactor.callLater(self.rate,lambda:self.enable())
 		if self.bot.user == 'Evidlo':
 				self.bot.loadModules()
-				self.bot.msg(self.bot.channel,'Reloaded all modules')
+				self.bot.msg(self.bot.channel,u'▷ '.encode('utf-8')+'Reloaded all modules'+u' ◁'.encode('utf-8'))
 		return
 	
 class module_shesaid(object):
@@ -140,13 +140,9 @@ class module_food(object):
 				meal = 'Lunch'
 			else:
 				meal = 'Breakfast' 
-
-			if not day:
-				day = time
-		else:
-			if not day:
-				self.foodHelp()
-				return
+		if not day:
+			time = datetime.now()
+			day = time
 
 		url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
 		json = simplejson.load(urllib.urlopen(url))
