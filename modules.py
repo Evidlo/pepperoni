@@ -9,6 +9,26 @@ import re
 #food
 from datetime import datetime
 
+class module_reload(object):
+	def __init__(self,config,bot):
+		self.enabled = True
+		self.rate = int(config.get('reload','rate',0))
+		self.bot = bot
+		triggers = config.get('reload','triggers')
+		self.triggers = triggers.split('\n')
+
+	def enable(self):
+		self.enabled = True
+
+	def run(self):
+		self.enabled = False
+		#schedule this module to be reenabled after 'self.rate' seconds
+		reactor.callLater(self.rate,lambda:self.enable())
+		if self.bot.user == 'Evidlo':
+				self.bot.loadModules()
+				self.bot.msg(self.bot.channel,'Reloaded all modules')
+		return
+	
 class module_shesaid(object):
 	def __init__(self,config,bot):
 		self.enabled = True
@@ -134,5 +154,5 @@ class module_food(object):
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
 		if not items:
 			items = ['Not Serving']
-		message = court.title() + ' ' + meal.title() + ':' + ', '.join(items[:10])
+		message = court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
 		self.bot.msg(self.bot.channel,message)
