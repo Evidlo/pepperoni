@@ -30,7 +30,10 @@ class Bot(irc.IRCClient):
 		#set up all the modules (ignore builtins)
 		myclasses = {}
 		execfile('modules.py',myclasses)
-		self.mymodules = {name:myclass() for name,myclass in myclasses.items() if type(myclass) == type}
+		for a,b in myclasses.items():
+			print a+":"+str(type(b))
+		sys.exit(0)
+		self.mymodules = {name:myclass(config) for name,myclass in myclasses.items() if type(myclass) == type}
 
 	def joined(self, channel):
 		logging.info("Joined %s." % channel)
