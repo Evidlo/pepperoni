@@ -27,6 +27,9 @@ class Bot(irc.IRCClient):
 	def signedOn(self):
 		self.join(self.factory.channel)
 		logging.info("Signed on as %s." % self.nickname)
+		self.loadModules()
+
+	def loadModules(self):
 		#set up all the modules (ignore builtins)
 		myclasses = {}
 		execfile('modules.py',myclasses)
