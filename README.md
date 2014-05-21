@@ -1,4 +1,5 @@
-A reimplementation of the peetsa bot on Dtella using the twisted python framework.
+An IRC bot I wrote using python-twisted.
+Features a settings file, modular addons, and rate limiting.
 
 =========
 
