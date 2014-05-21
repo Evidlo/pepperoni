@@ -7,7 +7,7 @@ import simplejson
 import urllib
 import re
 #food
-from datetime import datetime
+from datetime import datetime,timedelta
 
 class module_reload(object):
 	def __init__(self,config,bot):
@@ -96,15 +96,17 @@ class module_food(object):
 		triggers = config.get('food','triggers')
 		self.triggers = triggers.split('\n')
 		self.acceptable_courts = ["hillenbrand","ford","wiley","earhart","windsor"]
-		self.acceptable_mealtimes = acceptable_mealtime=["Lunch","Dinner","Breakfast"]
+		self.acceptable_mealtimes = ["Lunch","Dinner","Breakfast"]
+		self.acceptable_days = {'sunday':6,'monday':0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5}
 
 	def enable(self):
 		self.enabled = True
 	
 	def foodHelp(self):
-		self.bot.notice(self.bot.user," Usage: !food COURT [MEAL] [YYYY-MM-DD]")
+		self.bot.notice(self.bot.user," Usage: !food COURT [MEAL] [YYYY-MM-DD | weekday]")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch 2013-12-29")
+		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch monday")
 		return
 
 	def run(self):
@@ -128,6 +130,12 @@ class module_food(object):
 				meal = param.title()
 			if re.search('[0-9]{4}-[0-9]{2}-[0-9]{2}',param.lower()):
 				day = datetime.strptime(param,'%Y-%m-%d')
+			if param.lower() in self.acceptable_days.keys():
+				day = datetime.now()
+				one_day = timedelta(days = 1)
+				while day.weekday() != self.acceptable_days[param.lower()]:
+						day += one_day
+
 		if not court:
 			self.foodHelp()
 			return
