@@ -1,11 +1,7 @@
 #!/usr/bin/env python2
 
-"""
-	todo:
-		create an ini with settings - tag for module,triggers
-		associate triggers to objects using list
-		profit
-"""
+#Evan Widloski - 2014-05-12 - evan@evanw.org
+#An IRC bot written in python-twisted
 
 import sys
 from twisted.internet import reactor, protocol
