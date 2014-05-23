@@ -54,6 +54,25 @@ class module_shesaid(object):
 		reactor.callLater(self.rate,lambda:self.enable())
 		self.bot.msg(self.bot.channel,choice(self.quotes))
 
+#spouts a quote by a women as a quip to 'thats what she said'
+class module_yodawg(object):
+	def __init__(self,config,bot):
+		self.enabled = True
+		self.rate = int(config.get('yodawg','rate',0))
+		self.bot = bot
+		triggers = config.get('yodawg','triggers')
+		self.triggers = triggers.split('\n')
+
+	def enable(self):
+		self.enabled = True
+
+	def run(self):
+		self.enabled = False
+		#schedule this module to be reenabled after 'self.rate' seconds
+		reactor.callLater(self.rate,lambda:self.enable())
+		word = ' '.join(self.bot.chat.split(' ')[1:])
+		self.bot.msg(self.bot.channel,'Yo dawg, I heard you like '+word+', so we put '+word+' in your '+word+' so you can '+word+' while you '+word)
+
 #gets statistics for youtube links - title, rating, views
 class module_youtube(object):
 	def __init__(self,config,bot):
@@ -175,7 +194,8 @@ class module_food(object):
 
 		#grab first 3 items from every bar
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
-
+		self.bot.msg(self.bot.channel,day.__repr__())
+		self.bot.msg(self.bot.channel,url)
 		if not items:
 			items = ['Not Serving']
 		message = court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
