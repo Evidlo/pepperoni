@@ -70,8 +70,16 @@ class module_yodawg(object):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
-		word = ' '.join(self.bot.chat.split(' ')[1:])
-		self.bot.msg(self.bot.channel,'Yo dawg, I heard you like '+word+', so we put '+word+' in your '+word+' so you can '+word+' while you '+word)
+		words = self.bot.chat.split(' ')
+		a = b = None
+		if len(words) == 2:
+			a = words[1]
+			b = a
+		if len(words) >= 3:
+			a = words[1]
+			b = words[2]
+		if a and b:
+			self.bot.msg(self.bot.channel,'Yo dawg, I heard you like '+a+', so we put '+a+' in your '+b+' so you can '+a+' while you '+b)
 
 #gets statistics for youtube links - title, rating, views
 class module_youtube(object):

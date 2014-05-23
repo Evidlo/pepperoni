@@ -26,6 +26,8 @@ class Bot(irc.IRCClient):
 		self.loadModules()
 
 	def loadModules(self):
+		#reload module settings
+		config.read('settings.ini')		
 		#set up all the modules (ignore builtins)
 		myclasses = {}
 		execfile('modules.py',myclasses)
