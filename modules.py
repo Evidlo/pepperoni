@@ -202,8 +202,6 @@ class module_food(object):
 
 		#grab first 3 items from every bar
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
-		self.bot.msg(self.bot.channel,day.__repr__())
-		self.bot.msg(self.bot.channel,url)
 		if not items:
 			items = ['Not Serving']
 		message = court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
