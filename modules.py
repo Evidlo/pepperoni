@@ -62,7 +62,7 @@ class module_leet(object):
 		self.bot = bot
 		triggers = config.get('leet','triggers')
 		self.triggers = triggers.split('\n')
-		self.leet = {'a':'4','b':'8','c':'(','d':')','e':'3','g':'6','h':'#','i':'1','l':'|','o':'0','s':'5','t':'7','w':'vv'}
+		self.leet = {'a':'4','b':'8','c':'(','d':')','e':'3','g':'6','h':'#','i':'1','l':'|','o':'0','s':'5','t':'7','w':'vv','4':'a','8':'b','(':'c',')':'d','3':'e','6':'g','#':'h','1':'i','|':'l','0':'o','5':'s','7':'t','vv':'w'}
 
 	def enable(self):
 		self.enabled = True
@@ -72,6 +72,7 @@ class module_leet(object):
 		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
 		chat = ' '.join(self.bot.chat.split(' ')[1:])
+		chat = chat.lower()
 		message = '' 
 		for letter in chat:
 			print letter
