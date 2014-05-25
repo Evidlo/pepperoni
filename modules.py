@@ -54,7 +54,38 @@ class module_shesaid(object):
 		reactor.callLater(self.rate,lambda:self.enable())
 		self.bot.msg(self.bot.channel,choice(self.quotes))
 
-#spouts a quote by a women as a quip to 'thats what she said'
+#convert text to 1337
+class module_leet(object):
+	def __init__(self,config,bot):
+		self.enabled = True
+		self.rate = int(config.get('leet','rate',0))
+		self.bot = bot
+		triggers = config.get('leet','triggers')
+		self.triggers = triggers.split('\n')
+		self.leet = {'a':'4','b':'8','c':'(','d':')','e':'3','g':'6','h':'#','i':'1','l':'|','o':'0','s':'5','t':'7','w':'vv','4':'a','8':'b','(':'c',')':'d','3':'e','6':'g','#':'h','1':'i','|':'l','0':'o','5':'s','7':'t','vv':'w'}
+
+	def enable(self):
+		self.enabled = True
+
+	def run(self):
+		self.enabled = False
+		#schedule this module to be reenabled after 'self.rate' seconds
+		reactor.callLater(self.rate,lambda:self.enable())
+		chat = ' '.join(self.bot.chat.split(' ')[1:])
+		chat = chat.lower()
+		message = '' 
+		for letter in chat:
+			print letter
+			try:
+				message += self.leet[letter]
+			except:
+				print 'nf'
+				message += letter
+		print message
+		if message:
+			self.bot.msg(self.bot.channel,message)
+
+#xzibit dat stuff
 class module_yodawg(object):
 	def __init__(self,config,bot):
 		self.enabled = True
