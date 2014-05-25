@@ -184,7 +184,8 @@ class module_food(object):
 			day = time
 			if not meal:
 				time = datetime.now()
-				hour = time.strftime('%H')
+				hour = int(time.strftime('%H'))
+				print hour
 				if hour > 19:
 					meal = 'Breakfast'
 				elif hour > 14:
