@@ -238,3 +238,26 @@ class module_food(object):
 			items = ['Not Serving']
 		message = court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
 		self.bot.msg(self.bot.channel,message)
+
+
+#responds to actions
+class module_action(object):
+	def __init__(self,config,bot):
+		self.enabled = True
+		self.rate = int(config.get('action','rate',0))
+		self.bot = bot
+		triggers = config.get('action','triggers')
+		self.triggers = triggers.split('\n')
+
+	def enable(self):
+		self.enabled = True
+
+	def run(self):
+		self.enabled = False
+		#schedule this module to be reenabled after 'self.rate' seconds
+		reactor.callLater(self.rate,lambda:self.enable())
+		try:
+			message = self.bot.chat.split(' ')[0]+' '+self.bot.user
+			self.bot.msg(self.bot.channel,'\001ACTION %s\001' % message)
+		except IndexError:
+			pass
