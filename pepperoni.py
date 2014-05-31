@@ -50,6 +50,9 @@ class Bot(irc.IRCClient):
 					if re.search(trigger,chat):
 						module.run()
 						return
+	
+	def action(self, user, channel, chat):
+		self.privmsg(user,channel,chat)
 
 class BotFactory(protocol.ClientFactory):
 	protocol = Bot
