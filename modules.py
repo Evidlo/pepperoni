@@ -10,6 +10,8 @@ import urllib
 import re
 #module_food
 from datetime import datetime,timedelta
+#module zalgo
+from zalgo_dict import *
 
 #reloads this file on !reload command
 class module_reload(object):
@@ -261,3 +263,24 @@ class module_action(object):
 			self.bot.msg(self.bot.channel,'\001ACTION %s\001' % message)
 		except IndexError:
 			pass
+
+
+#spouts a quote by a women as a quip to 'thats what she said'
+class module_zalgo(object):
+	def __init__(self,config,bot):
+		self.enabled = True
+		self.rate = int(config.get('zalgo','rate',0))
+		self.bot = bot
+		triggers = config.get('zalgo','triggers')
+		self.triggers = triggers.split('\n')
+
+	def enable(self):
+		self.enabled = True
+
+	def run(self):
+		self.enabled = False
+		#schedule this module to be reenabled after 'self.rate' seconds
+		message = ' '.join(self.bot.chat.split(' ')[1:])
+		reactor.callLater(self.rate,lambda:self.enable())
+		out = [letter + choice(zalgo_up) * 2 + choice(zalgo_down) * 2 + choice(zalgo_mid) * 2 for letter in message]
+		self.bot.msg(self.bot.channel,''.join(out).encode('utf8'))
