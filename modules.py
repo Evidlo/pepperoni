@@ -264,8 +264,7 @@ class module_action(object):
 		except IndexError:
 			pass
 
-
-#spouts a quote by a women as a quip to 'thats what she said'
+#converts text to zalgo using table in zalgo_dict.py
 class module_zalgo(object):
 	def __init__(self,config,bot):
 		self.enabled = True
