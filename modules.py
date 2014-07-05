@@ -282,4 +282,5 @@ class module_zalgo(object):
 		message = ' '.join(self.bot.chat.split(' ')[1:])
 		reactor.callLater(self.rate,lambda:self.enable())
 		out = [letter + choice(zalgo_up) * 2 + choice(zalgo_down) * 2 + choice(zalgo_mid) * 2 for letter in message]
+		out = out[:27]
 		self.bot.msg(self.bot.channel,''.join(out).encode('utf8'))
