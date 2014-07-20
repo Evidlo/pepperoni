@@ -151,7 +151,7 @@ class module_youtube(object):
 				ratings='0'
 			title = video['entry']['title']['$t']
 			views = video['entry']['yt$statistics']['viewCount']
-			self.bot.msg(self.bot.channel,u'▷ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ◁'.encode('utf-8'))
+			self.bot.msg(self.bot.channel,u'▷ '.encode('utf-8') + u'\x02'.encode('utf-8') + title + u'\x0F'.encode('utf-8') + " - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ◁'.encode('utf-8'))
 
 
 #interface for getting the menu from one of purdue's dining courts
@@ -238,7 +238,7 @@ class module_food(object):
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
 		if not items:
 			items = ['Not Serving']
-		message = court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
+		message = u'\x02'.encode('utf-8') + court.title() + ' ' + meal.title() + ': ' + u'\x0F'.encode('utf-8') + ', '.join(items[:10])
 		self.bot.msg(self.bot.channel,message)
 
 
