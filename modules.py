@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #Evan Widloski - 2014-05-20 - evan@evanw.org
-#Modules for pepperoni bot - Modules must begin with module_
+#Modules for pepperoni bot - 
 
 from twisted.internet import reactor
 from random import choice
@@ -10,18 +10,28 @@ import urllib
 import re
 #module_food
 from datetime import datetime,timedelta
-#module zalgo
-from zalgo_dict import *
 
-#reloads this file on !reload command
-class module_reload(object):
+
+#Module class which all modules inherit from
+class botmodule(object):
 	def __init__(self,config,bot):
 		self.enabled = True
-		self.rate = int(config.get('reload','rate',0))
+		#module name is everything after first underscore
+		self.name = ''.join(self.__class__.__name__.split('_')[1:])
+		self.rate = int(config.get(self.name,'rate',0))
 		self.bot = bot
-		triggers = config.get('reload','triggers')
+		triggers = config.get(self.name,'triggers')
 		self.triggers = triggers.split('\n')
+		#call user defined init function, if it exists
+		if hasattr(self,'init'):
+			self.init()
 
+
+	def enable(self):
+		self.enabled = True
+
+#reloads this file on !reload command
+class module_reload(botmodule):
 	def enable(self):
 		self.enabled = True
 
@@ -36,13 +46,8 @@ class module_reload(object):
 		return
 	
 #spouts a quote by a women as a quip to 'thats what she said'
-class module_shesaid(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		self.rate = int(config.get('shesaid','rate',0))
-		self.bot = bot
-		triggers = config.get('shesaid','triggers')
-		self.triggers = triggers.split('\n')
+class module_shesaid(botmodule):
+	def init(self):
 		quotesFile = 'quotes.txt'
 		with open(quotesFile) as quotesFileObj:
 			self.quotes = quotesFileObj.readlines()
@@ -57,13 +62,8 @@ class module_shesaid(object):
 		self.bot.msg(self.bot.channel,choice(self.quotes))
 
 #convert text to 1337
-class module_leet(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		self.rate = int(config.get('leet','rate',0))
-		self.bot = bot
-		triggers = config.get('leet','triggers')
-		self.triggers = triggers.split('\n')
+class module_leet(botmodule):
+	def init(self):
 		self.leet = {'a':'4','b':'8','c':'(','d':')','e':'3','g':'6','h':'#','i':'1','l':'|','o':'0','s':'5','t':'7','w':'vv','4':'a','8':'b','(':'c',')':'d','3':'e','6':'g','#':'h','1':'i','|':'l','0':'o','5':'s','7':'t','vv':'w'}
 
 	def enable(self):
@@ -77,25 +77,15 @@ class module_leet(object):
 		chat = chat.lower()
 		message = '' 
 		for letter in chat:
-			print letter
 			try:
 				message += self.leet[letter]
 			except:
-				print 'nf'
 				message += letter
-		print message
 		if message:
 			self.bot.msg(self.bot.channel,message)
 
 #xzibit dat stuff
-class module_yodawg(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		self.rate = int(config.get('yodawg','rate',0))
-		self.bot = bot
-		triggers = config.get('yodawg','triggers')
-		self.triggers = triggers.split('\n')
-
+class module_yodawg(botmodule):
 	def enable(self):
 		self.enabled = True
 
@@ -115,14 +105,7 @@ class module_yodawg(object):
 			self.bot.msg(self.bot.channel,'Yo dawg, I heard you like '+a+', so we put '+a+' in your '+b+' so you can '+a+' while you '+b)
 
 #gets statistics for youtube links - title, rating, views
-class module_youtube(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		self.rate = int(config.get('youtube','rate',0))
-		self.bot = bot
-		triggers = config.get('youtube','triggers')
-		self.triggers = triggers.split('\n')
-
+class module_youtube(botmodule):
 	def enable(self):
 		self.enabled = True
 
@@ -155,13 +138,8 @@ class module_youtube(object):
 
 
 #interface for getting the menu from one of purdue's dining courts
-class module_food(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		self.rate = int(config.get('food','rate',0))
-		self.bot = bot
-		triggers = config.get('food','triggers')
-		self.triggers = triggers.split('\n')
+class module_food(botmodule):
+	def init(self):
 		self.acceptable_courts = ["hillenbrand","ford","wiley","earhart","windsor"]
 		self.acceptable_mealtimes = ["Lunch","Dinner","Breakfast"]
 		self.acceptable_days = {'sunday':6,'monday':0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5}
@@ -218,7 +196,6 @@ class module_food(object):
 			if not meal:
 				time = datetime.now()
 				hour = int(time.strftime('%H'))
-				print hour
 				if hour > 19:
 					meal = 'Breakfast'
 				elif hour > 14:
@@ -243,14 +220,7 @@ class module_food(object):
 
 
 #responds to actions
-class module_action(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		self.rate = int(config.get('action','rate',0))
-		self.bot = bot
-		triggers = config.get('action','triggers')
-		self.triggers = triggers.split('\n')
-
+class module_action(botmodule):
 	def enable(self):
 		self.enabled = True
 
@@ -265,13 +235,11 @@ class module_action(object):
 			pass
 
 #converts text to zalgo using table in zalgo_dict.py
-class module_zalgo(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		self.rate = int(config.get('zalgo','rate',0))
-		self.bot = bot
-		triggers = config.get('zalgo','triggers')
-		self.triggers = triggers.split('\n')
+class module_zalgo(botmodule):
+	def init(self):
+		zalgo_dict={}
+		execfile('zalgo_dict.py',zalgo_dict,zalgo_dict)
+		self.zalgo_dict = zalgo_dict
 
 	def enable(self):
 		self.enabled = True
@@ -281,6 +249,6 @@ class module_zalgo(object):
 		#schedule this module to be reenabled after 'self.rate' seconds
 		message = ' '.join(self.bot.chat.split(' ')[1:])
 		reactor.callLater(self.rate,lambda:self.enable())
-		out = [letter + choice(zalgo_up) * 2 + choice(zalgo_down) * 2 + choice(zalgo_mid) * 2 for letter in message]
+		out = [letter + choice(self.zalgo_dict['zalgo_up']) * 2 + choice(self.zalgo_dict['zalgo_down']) * 2 + choice(self.zalgo_dict['zalgo_mid']) * 2 for letter in message]
 		out = out[:27]
 		self.bot.msg(self.bot.channel,''.join(out).encode('utf8'))
