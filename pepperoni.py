@@ -21,7 +21,8 @@ class Bot(irc.IRCClient):
 	nickname = property(_get_nickname)
 
 	def signedOn(self):
-		self.join(self.factory.channel)
+		for channel in self.factory.channels:
+			self.join(channel)
 		logging.info("Signed on as %s." % self.nickname)
 		self.loadModules()
 
@@ -35,6 +36,11 @@ class Bot(irc.IRCClient):
 
 	def joined(self, channel):
 		logging.info("Joined %s." % channel)
+	
+	def kickedFrom(self, channel, kicker, message):
+		logging.info('Kicked from ',channel,' by ',kicker,' with message: ',message)
+		logging.info('Rejoining...')
+		self.join(channel)
 
 	def privmsg(self, user, channel, chat):
 		self.user = user.split('!')[0]
@@ -57,8 +63,8 @@ class Bot(irc.IRCClient):
 class BotFactory(protocol.ClientFactory):
 	protocol = Bot
 
-	def __init__(self, channel, nickname):
-		self.channel = channel
+	def __init__(self, channels, nickname):
+		self.channels = channels
 		self.nickname = nickname
 
 	def clientConnectionLost(self, connector, reason):
@@ -71,8 +77,10 @@ class BotFactory(protocol.ClientFactory):
 if __name__ == "__main__":
 		config = ConfigParser()
 		config.read('settings.ini')		
-		chan = config.get('bot','channel',0)
-		host = config.get('bot','host',0)
-		nick = config.get('bot','nick',0)
-		reactor.connectTCP(host, 6667, BotFactory(chan,nick))
+		
+		#start up each instance of the bot, and join each channel/server with given nick
+		instances = zip(config.get('bot','host').split(','),config.get('bot','channel').split(','),config.get('bot','nick').split(','))
+		for instance in instances:
+			print instance
+			reactor.connectTCP(instance[0], 6667, BotFactory(instance[1].split('|'),instance[2]))
 		reactor.run()

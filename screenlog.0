@@ -1,0 +1,1032 @@
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1844, in irc_RPL_WELCOME
+    self.signedOn()
+  File "pepperoni.py", line 30, in signedOn
+    self.loadModules()
+  File "pepperoni.py", line 36, in loadModules
+    self.mymodules = {name:myclass(config,self) for name,myclass in myclasses.items() if name.startswith('module_')}
+  File "pepperoni.py", line 36, in <dictcomp>
+    self.mymodules = {name:myclass(config,self) for name,myclass in myclasses.items() if name.startswith('module_')}
+  File "modules.py", line 15, in __init__
+    self.rate = int(config.get('reload','rate',0))
+  File "/usr/lib/python2.7/ConfigParser.py", line 607, in get
+    raise NoSectionError(section)
+ConfigParser.NoSectionError: No section: 'reload'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1844, in irc_RPL_WELCOME
+    self.signedOn()
+  File "pepperoni.py", line 30, in signedOn
+    self.loadModules()
+  File "pepperoni.py", line 36, in loadModules
+    self.mymodules = {name:myclass(config,self) for name,myclass in myclasses.items() if name.startswith('module_')}
+  File "pepperoni.py", line 36, in <dictcomp>
+    self.mymodules = {name:myclass(config,self) for name,myclass in myclasses.items() if name.startswith('module_')}
+  File "modules.py", line 15, in __init__
+    self.rate = int(config.get('reload','rate',0))
+  File "/usr/lib/python2.7/ConfigParser.py", line 607, in get
+    raise NoSectionError(section)
+ConfigParser.NoSectionError: No section: 'reload'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    for module in self.mymodules.values():
+exceptions.AttributeError: Bot instance has no attribute 'mymodules'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 53, in privmsg
+    module.run()
+  File "modules.py", line 164, in run
+    items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
+exceptions.KeyError: None
+
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 49, in privmsg
+    module.run()
+  File "modules.py", line 32, in run
+    self.bot.loadModules()
+  File "pepperoni.py", line 32, in loadModules
+    self.mymodules = {name:myclass(config,self) for name,myclass in myclasses.items() if name.startswith('module_')}
+  File "pepperoni.py", line 32, in <dictcomp>
+    self.mymodules = {name:myclass(config,self) for name,myclass in myclasses.items() if name.startswith('module_')}
+  File "modules.py", line 61, in __init__
+    self.rate = int(config.get('yodawg','rate',0))
+  File "/usr/lib/python2.7/ConfigParser.py", line 607, in get
+    raise NoSectionError(section)
+ConfigParser.NoSectionError: No section: 'yodawg'
+e
+v
+nf
+i
+d
+l
+o
+3v1)|0
+S
+nf
+t
+e
+v
+nf
+e
+-
+nf
+O
+nf
+ 
+nf
+S73v3-O 
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 32, in run
+    self.bot.loadModules()
+  File "pepperoni.py", line 33, in loadModules
+    execfile('modules.py',myclasses)
+exceptions.SyntaxError: invalid syntax (modules.py, line 65)
+3
+v
+nf
+1
+)
+nf
+|
+0
+evi)lo
+w
+…
+nf
+î
+nf
+À
+nf
+ê
+nf
+k
+nf
+…
+nf
+®
+nf
+ 
+nf
+É
+nf
+…
+nf
+î
+nf
+À
+nf
+ê
+nf
+vv…îÀêk…® É…îÀê
+o
+c
+o
+n
+nf
+o
+m
+nf
+o
+w
+o
+c
+0(0n0m0vv0(
+0
+(
+0
+n
+nf
+0
+m
+nf
+0
+v
+nf
+v
+nf
+0
+(
+oconomovvoc
+!
+nf
+l
+e
+e
+t
+ 
+nf
+w
+a
+s
+n
+nf
+'
+nf
+t
+ 
+nf
+o
+b
+v
+nf
+i
+o
+u
+nf
+s
+?
+nf
+!|337 vv45n'7 08v10u5?
+i
+t
+'
+nf
+l
+l
+ 
+nf
+r
+nf
+e
+s
+p
+nf
+o
+n
+nf
+d
+ 
+nf
+a
+s
+ 
+nf
+l
+o
+n
+nf
+g
+ 
+nf
+a
+s
+ 
+nf
+!
+nf
+l
+e
+e
+t
+ 
+nf
+i
+s
+ 
+nf
+i
+n
+nf
+ 
+nf
+t
+h
+e
+ 
+nf
+t
+e
+x
+nf
+t
+?
+nf
+17'|| r35p0n) 45 |0n6 45 !|337 15 1n 7#3 73x7?
+w
+h
+y
+nf
+ 
+nf
+d
+i
+d
+ 
+nf
+i
+t
+ 
+nf
+c
+o
+n
+nf
+v
+nf
+e
+r
+nf
+t
+ 
+nf
+t
+h
+e
+ 
+nf
+!
+nf
+l
+e
+e
+t
+ 
+nf
+t
+o
+ 
+nf
+!
+nf
+l
+e
+e
+t
+vv#y )1) 17 (0nv3r7 7#3 !|337 70 !|337
+(
+)
+c
+0
+n
+nf
+0
+^
+nf
+^
+nf
+0
+w
+w
+(
+cd(ono^^ovvvvc
+p
+nf
+o
+o
+p
+nf
+p00p
+|
+>
+nf
+0
+0
+|
+>
+nf
+l>ool>
+i
+'
+nf
+m
+nf
+ 
+nf
+a
+ 
+nf
+p
+nf
+r
+nf
+e
+t
+t
+y
+nf
+ 
+nf
+g
+i
+r
+nf
+l
+!
+nf
+1'm 4 pr377y 61r|!
+16
+l
+k
+nf
+j
+nf
+|kj
+$
+nf
+%
+nf
+#
+$
+nf
+$%h$
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 152, in run
+    self.bot.msg(self.bot.channel,u'‚ñ∑ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ‚óÅ'.encode('utf-8'))
+exceptions.UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 152, in run
+    self.bot.msg(self.bot.channel,u'‚ñ∑ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ‚óÅ'.encode('utf-8'))
+exceptions.UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 150, in run
+    title = video['entry']['title']['$t']
+exceptions.UnboundLocalError: local variable 'video' referenced before assignment
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 152, in run
+    self.bot.msg(self.bot.channel,u'‚ñ∑ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ‚óÅ'.encode('utf-8'))
+exceptions.UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 32, in run
+    self.bot.loadModules()
+  File "pepperoni.py", line 33, in loadModules
+    execfile('modules.py',myclasses)
+exceptions.IndentationError: unexpected indent (modules.py, line 285)
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 32, in run
+    self.bot.loadModules()
+  File "pepperoni.py", line 33, in loadModules
+    execfile('modules.py',myclasses)
+  File "modules.py", line 14, in <module>
+    #reloads this file on !reload command
+exceptions.ImportError: No module named zalgo_dict
+^CUnhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 284, in run
+    out = [letter + random.choice(zalgo_up) * 2 + random.choice(zalgo_down) * 2 + random.choice(zalgo_mid) * 2 for letter in message]
+exceptions.NameError: global name 'message' is not defined
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 34, in run
+    self.bot.loadModules()
+  File "pepperoni.py", line 33, in loadModules
+    execfile('modules.py',myclasses)
+exceptions.IndentationError: unexpected indent (modules.py, line 284)
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 283, in run
+    reactor.callLater(self.rate,lambda:self.enable())
+exceptions.TypeError: 'str' object is not callable
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 285, in run
+    self.bot.msg(self.bot.channel,out)
+exceptions.NameError: global name 'random' is not defined
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 286, in run
+    
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1610, in msg
+    for line in split(message, length - minimumLength):
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 109, in split
+    for line in str.split('\n')
+exceptions.AttributeError: 'list' object has no attribute 'split'
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 286, in run
+    
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1611, in msg
+    self.sendLine(fmt + line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1097, in sendLine
+    self._reallySendLine(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1093, in _reallySendLine
+    return basic.LineReceiver.sendLine(self, lowQuote(line) + '\r')
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 625, in sendLine
+    return self.transport.write(line + self.delimiter)
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/_newtls.py", line 190, in write
+    FileDescriptor.write(self, bytes)
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/abstract.py", line 302, in write
+    raise TypeError("Data must not be unicode")
+exceptions.TypeError: Data must not be unicode
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 286, in run
+    
+exceptions.NameError: global name 'utf8' is not defined
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 285, in run
+    self.bot.msg(self.bot.channel,out)
+exceptions.UnicodeDecodeError: 'ascii' codec can't decode byte 0xcd in position 0: ordinal not in range(128)
+^CUnhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 285, in run
+    out = [letter + choice(zalgo_up) * 2 + choice(zalgo_down) * 2 + choice(zalgo_mid) * 2 for letter in message]
+exceptions.UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 0: ordinal not in range(128)
+18
+18
+18
+18
+Traceback (most recent call last):
+  File "pepperoni.py", line 13, in <module>
+    import modules
+  File "/home/evan/resources/pepperoni/modules.py", line 285
+    print out
+        ^
+SyntaxError: invalid syntax
+Traceback (most recent call last):
+  File "pepperoni.py", line 13, in <module>
+    import modules
+  File "/home/evan/resources/pepperoni/modules.py", line 285
+    print out
+        ^
+SyntaxError: invalid syntax
+Traceback (most recent call last):
+  File "pepperoni.py", line 13, in <module>
+    import modules
+  File "/home/evan/resources/pepperoni/modules.py", line 285
+    print out
+        ^
+SyntaxError: invalid syntax
+Traceback (most recent call last):
+  File "pepperoni.py", line 13, in <module>
+    import modules
+  File "/home/evan/resources/pepperoni/modules.py", line 286
+    self.bot.msg(self.bot.channel,''.join(out).encode('utf8'))
+    ^
+IndentationError: unexpected indent
+Traceback (most recent call last):
+  File "pepperoni.py", line 13, in <module>
+    import modules
+  File "/home/evan/resources/pepperoni/modules.py", line 286
+    self.bot.msg(self.bot.channel,''.join(out).encode('utf8'))
+    ^
+IndentationError: unexpected indent
+13
+12
+18
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 154, in run
+    self.bot.msg(self.bot.channel,u'‚ñ∑ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ‚óÅ'.encode('utf-8'))
+exceptions.UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+13
+11
+12
+Unhandled Error
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/dist-packages/twisted/internet/tcp.py", line 199, in doRead
+    rval = self.protocol.dataReceived(data)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2413, in dataReceived
+    basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+  File "/usr/lib/python2.7/dist-packages/twisted/protocols/basic.py", line 564, in dataReceived
+    why = self.lineReceived(line)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2421, in lineReceived
+    self.handleCommand(command, prefix, params)
+--- <exception caught here> ---
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 2465, in handleCommand
+    method(prefix, params)
+  File "/usr/lib/python2.7/dist-packages/twisted/words/protocols/irc.py", line 1937, in irc_PRIVMSG
+    self.privmsg(user, channel, message)
+  File "pepperoni.py", line 51, in privmsg
+    module.run()
+  File "modules.py", line 154, in run
+    self.bot.msg(self.bot.channel,u'‚ñ∑ '.encode('utf-8')+ title +" - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ‚óÅ'.encode('utf-8'))
+exceptions.UnicodeDecodeError: 'ascii' codec can't decode byte 0xe2 in position 0: ordinal not in range(128)
+0
+12
+
+
+
+
+12
+k 18
+18
+('irc.dhirc.com', '#test|dtella', 'peetsa')
