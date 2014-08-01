@@ -234,6 +234,16 @@ class module_action(botmodule):
 		except IndexError:
 			pass
 
+#dmesg
+class module_dmesg(botmodule):
+	def enable(self):
+		self.enabled = True
+
+	def run(self):
+		self.enabled = False
+			self.bot.msg(self.bot.channel,'wat')
+
+
 #converts text to zalgo using table in zalgo_dict.py
 class module_zalgo(botmodule):
 	def init(self):
