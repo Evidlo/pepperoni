@@ -24,7 +24,7 @@ class botmodule(object):
 		self.triggers = triggers.split('\n')
 		#call user defined init function, if it exists
 		if hasattr(self,'init'):
-			self.init()
+			self.init(config=config)
 
 
 	def enable(self):
@@ -32,6 +32,7 @@ class botmodule(object):
 
 #reloads this file on !reload command
 class module_reload(botmodule):
+	def init(self):
 	def enable(self):
 		self.enabled = True
 
@@ -143,6 +144,7 @@ class module_food(botmodule):
 		self.acceptable_courts = ["hillenbrand","ford","wiley","earhart","windsor"]
 		self.acceptable_mealtimes = ["Lunch","Dinner","Breakfast"]
 		self.acceptable_days = {'sunday':6,'monday':0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5}
+		self.relative_days = {'tomorrow':1,'today':0,'yesterday':-1}
 
 	def enable(self):
 		self.enabled = True
@@ -182,8 +184,12 @@ class module_food(botmodule):
 			if param.lower() in self.acceptable_days.keys():
 				day = datetime.now()
 				one_day = timedelta(days = 1)
+				#set 'day' object to same weekday as input
 				while day.weekday() != self.acceptable_days[param.lower()]:
 						day += one_day
+			if param.lower() in self.relative_days.keys():
+				day = datetime.now()
+				day += timedelta(days = 1)*self.relative_days[param.lower()]
 
 		#logic for dealing with missing input
 		if not court:
@@ -241,7 +247,8 @@ class module_dmesg(botmodule):
 
 	def run(self):
 		self.enabled = False
-			self.bot.msg(self.bot.channel,'wat')
+		reactor.callLater(self.rate,lambda:self.enable())
+		self.bot.msg(self.bot.channel,'wat')
 
 
 #converts text to zalgo using table in zalgo_dict.py
