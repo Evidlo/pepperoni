@@ -38,7 +38,7 @@ class Bot(irc.IRCClient):
 		logging.info("Joined %s." % channel)
 	
 	def kickedFrom(self, channel, kicker, message):
-		logging.info('Kicked from ',channel,' by ',kicker,' with message: ',message)
+		logging.info('Kicked from '+channel+' by '+kicker+' with message: '+message)
 		logging.info('Rejoining...')
 		self.join(channel)
 
@@ -47,7 +47,7 @@ class Bot(irc.IRCClient):
 		self.channel = channel
 		self.chat = chat
 
-		logging.debug("Private Message:",chat)
+		logging.debug("Private Message:"+chat)
 
 		#check message against triggers for every module
 		for module in self.mymodules.values():
@@ -77,10 +77,11 @@ class BotFactory(protocol.ClientFactory):
 if __name__ == "__main__":
 		config = ConfigParser()
 		config.read('settings.ini')		
+		logging.basicConfig(filename='/tmp/peetsa.log',level=logging.DEBUG)
 		
 		#start up each instance of the bot, and join each channel/server with given nick
 		instances = zip(config.get('bot','host').split(','),config.get('bot','channel').split(','),config.get('bot','nick').split(','))
 		for instance in instances:
 			print instance
-			reactor.connectTCP(instance[0], 6667, BotFactory(instance[1].split('|'),instance[2]))
+			reactor.connectTCP(instance[0], 6667, BotFactory(instance[1].split(' '),instance[2]))
 		reactor.run()

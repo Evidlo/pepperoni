@@ -24,7 +24,7 @@ class botmodule(object):
 		self.triggers = triggers.split('\n')
 		#call user defined init function, if it exists
 		if hasattr(self,'init'):
-			self.init(config=config)
+			self.init()
 
 
 	def enable(self):
@@ -32,10 +32,6 @@ class botmodule(object):
 
 #reloads this file on !reload command
 class module_reload(botmodule):
-	def init(self):
-	def enable(self):
-		self.enabled = True
-
 	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
@@ -43,7 +39,7 @@ class module_reload(botmodule):
 		#only enable for user Evidlo
 		if self.bot.user == 'Evidlo':
 				self.bot.loadModules()
-				self.bot.msg(self.bot.channel,u'▷ '.encode('utf-8')+'Reloaded all modules'+u' ◁'.encode('utf-8'))
+				self.bot.msg(self.bot.channel,':: Reloaded all modules ::')
 		return
 	
 #spouts a quote by a women as a quip to 'thats what she said'
@@ -52,9 +48,6 @@ class module_shesaid(botmodule):
 		quotesFile = 'quotes.txt'
 		with open(quotesFile) as quotesFileObj:
 			self.quotes = quotesFileObj.readlines()
-
-	def enable(self):
-		self.enabled = True
 
 	def run(self):
 		self.enabled = False
@@ -66,9 +59,6 @@ class module_shesaid(botmodule):
 class module_leet(botmodule):
 	def init(self):
 		self.leet = {'a':'4','b':'8','c':'(','d':')','e':'3','g':'6','h':'#','i':'1','l':'|','o':'0','s':'5','t':'7','w':'vv','4':'a','8':'b','(':'c',')':'d','3':'e','6':'g','#':'h','1':'i','|':'l','0':'o','5':'s','7':'t','vv':'w'}
-
-	def enable(self):
-		self.enabled = True
 
 	def run(self):
 		self.enabled = False
@@ -87,9 +77,6 @@ class module_leet(botmodule):
 
 #xzibit dat stuff
 class module_yodawg(botmodule):
-	def enable(self):
-		self.enabled = True
-
 	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
@@ -107,9 +94,6 @@ class module_yodawg(botmodule):
 
 #gets statistics for youtube links - title, rating, views
 class module_youtube(botmodule):
-	def enable(self):
-		self.enabled = True
-
 	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
@@ -135,7 +119,7 @@ class module_youtube(botmodule):
 				ratings='0'
 			title = video['entry']['title']['$t']
 			views = video['entry']['yt$statistics']['viewCount']
-			self.bot.msg(self.bot.channel,u'▷ '.encode('utf-8') + u'\x02'.encode('utf-8') + title + u'\x0F'.encode('utf-8') + " - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings"+u' ◁'.encode('utf-8'))
+			self.bot.msg(self.bot.channel,':: ' + title + " - " + views +" views"+" - "+"Rating " + str(rating)+"% - "+ratings+" ratings ::")
 
 
 #interface for getting the menu from one of purdue's dining courts
@@ -146,12 +130,9 @@ class module_food(botmodule):
 		self.acceptable_days = {'sunday':6,'monday':0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5}
 		self.relative_days = {'tomorrow':1,'today':0,'yesterday':-1}
 
-	def enable(self):
-		self.enabled = True
-	
 	def foodHelp(self,message):
 		self.bot.notice(self.bot.user,message)
-		self.bot.notice(self.bot.user," Usage: !food COURT [MEAL] [YYYY-MM-DD | weekday]")
+		self.bot.notice(self.bot.user," Usage: !food <court> [<meal>] [<YYYY-MM-DD>|<weekday>|tomorrow]")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch 2013-12-29")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch monday")
@@ -221,15 +202,12 @@ class module_food(botmodule):
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
 		if not items:
 			items = ['Not Serving']
-		message = u'\x02'.encode('utf-8') + court.title() + ' ' + meal.title() + ': ' + u'\x0F'.encode('utf-8') + ', '.join(items[:10])
+		message = ':: '+ court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
 		self.bot.msg(self.bot.channel,message)
 
 
 #responds to actions
 class module_action(botmodule):
-	def enable(self):
-		self.enabled = True
-
 	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
@@ -242,9 +220,6 @@ class module_action(botmodule):
 
 #dmesg
 class module_dmesg(botmodule):
-	def enable(self):
-		self.enabled = True
-
 	def run(self):
 		self.enabled = False
 		reactor.callLater(self.rate,lambda:self.enable())
@@ -258,9 +233,6 @@ class module_zalgo(botmodule):
 		execfile('zalgo_dict.py',zalgo_dict,zalgo_dict)
 		self.zalgo_dict = zalgo_dict
 
-	def enable(self):
-		self.enabled = True
-
 	def run(self):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
@@ -269,3 +241,25 @@ class module_zalgo(botmodule):
 		out = [letter + choice(self.zalgo_dict['zalgo_up']) * 2 + choice(self.zalgo_dict['zalgo_down']) * 2 + choice(self.zalgo_dict['zalgo_mid']) * 2 for letter in message]
 		out = out[:27]
 		self.bot.msg(self.bot.channel,''.join(out).encode('utf8'))
+
+#urban dictionary definition grabber
+class module_poodict(botmodule):
+	def run(self):
+		word='%20'.join(self.bot.chat.split(' ')[1:])
+		url = "http://api.urbandictionary.com/v0/define?term="+word
+		json = simplejson.load(urllib.urlopen(url))
+		definition = json['list'][0]['definition']
+		message = ':: ' + definition[0:200]
+		self.bot.msg(self.bot.channel,message)
+
+#get regular definitions from glosbe dictionary
+class module_dict(botmodule):
+	def run(self):
+		definition = ''
+		word=self.bot.chat.split(' ')[1]
+		url='http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + word
+		json = simplejson.load(urllib.urlopen(url))
+		definition = json['tuc'][0]['meanings'][0]['text']
+		if definition:
+			self.bot.msg(self.bot.channel,':: ' + definition[0:200])
+
