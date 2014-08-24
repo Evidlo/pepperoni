@@ -16,8 +16,8 @@ from datetime import datetime,timedelta
 class botmodule(object):
 	def __init__(self,config,bot):
 		self.enabled = True
-		#module name is everything after first underscore
-		self.name = ''.join(self.__class__.__name__.split('_')[1:])
+		#grab name of this module
+		self.name = ''.join(self.__class__.__name__)
 		self.rate = int(config.get(self.name,'rate',0))
 		self.bot = bot
 		triggers = config.get(self.name,'triggers')
@@ -40,6 +40,17 @@ class module_reload(botmodule):
 		if self.bot.user == 'Evidlo':
 				self.bot.loadModules()
 				self.bot.msg(self.bot.channel,':: Reloaded all modules ::')
+		return
+
+#lists currently loaded modules
+class module_loaded(botmodule):
+	def run(self):
+		self.enabled=False
+		#schedule this module to be reenabled after 'self.rate' seconds
+		reactor.callLater(self.rate,lambda:self.enable())
+		if self.bot.user == 'Evidlo':
+				loaded_modules = ', '.join([module.name for module in self.bot.modules])
+				self.bot.msg(self.bot.channel,':: Loaded modules: ' + loaded_modules)
 		return
 	
 #spouts a quote by a women as a quip to 'thats what she said'
