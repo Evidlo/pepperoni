@@ -2,7 +2,8 @@
 #Evan Widloski - 2014-05-20 - evan@evanw.org
 #Modules for pepperoni bot - 
 
-from twisted.internet import reactor
+from twisted.internet import reactor, defer
+from twisted.web.client import getPage
 from random import choice
 #module_youtube
 import simplejson
@@ -140,14 +141,43 @@ class module_food(botmodule):
 		self.acceptable_mealtimes = ["Lunch","Dinner","Breakfast"]
 		self.acceptable_days = {'sunday':6,'monday':0,'tuesday':1,'wednesday':2,'thursday':3,'friday':4,'saturday':5}
 		self.relative_days = {'tomorrow':1,'today':0,'yesterday':-1}
+		self.jsoncache={}
 
-	def foodHelp(self,message):
+		self.updateCache()
+
+	def help(self,message):
 		self.bot.notice(self.bot.user,message)
 		self.bot.notice(self.bot.user," Usage: !food <court> [<meal>] [<YYYY-MM-DD>|<weekday>|tomorrow]")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch 2013-12-29")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch monday")
-		return
+
+	def downloadJSON(self,court,day):
+			url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
+			return getPage(url)
+
+	def updateCache(self, day = datetime.now()):
+		for court in self.acceptable_courts:
+			self.downloadJSON(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court)
+
+	def updateCacheCallback(self,json,court):
+		self.jsoncache[court]=json
+
+	def getJSON(self,court,day = datetime.now()):
+		
+		#if user requests today's menu, try to get from cache
+		if day.date() == datetime.now().date():
+			if court in self.jsoncache.keys():
+				return defer.succeed(self.jsoncache[court])
+			#if not found in cache, update cache and try this func again
+			else:
+				self.updateCache()
+				return self.getJSON(court,day)
+
+		#if user requests meal for any other day, download it
+		else:
+			return self.downloadJSON(court,day).addCallback(simplejson.loads)
+
 
 	def run(self):
 		self.enabled = False
@@ -157,7 +187,7 @@ class module_food(botmodule):
 		params = self.bot.chat.split(' ')
 
 		if len(params) < 2 or 'help' in params or '-h' in params:
-			self.foodHelp('')
+			self.help('')
 			return
 
 		court = None
@@ -174,26 +204,25 @@ class module_food(botmodule):
 				day = datetime.strptime(param,'%Y-%m-%d')
 			#handles optional weekday input
 			if param.lower() in self.acceptable_days.keys():
-				day = datetime.now()
+				day = datetime.today()
 				one_day = timedelta(days = 1)
 				#set 'day' object to same weekday as input
 				while day.weekday() != self.acceptable_days[param.lower()]:
 						day += one_day
+			#parse relative days, like 'today', 'tomorrow', 'yesterday'
 			if param.lower() in self.relative_days.keys():
 				day = datetime.now()
-				day += timedelta(days = 1)*self.relative_days[param.lower()]
+				day += timedelta(days = self.relative_days[param.lower()])
 
 		#logic for dealing with missing input
 		if not court:
-			self.foodHelp('You must specify a dining court.')
+			self.help('You must specify a dining court.')
 			return
 		#try to guess what mealtime user is interested in
 		if not day:
-			time = datetime.now()
-			day = time
+			day = datetime.now()
 			if not meal:
-				time = datetime.now()
-				hour = int(time.strftime('%H'))
+				hour = int(datetime.now().strftime('%H'))
 				if hour > 19:
 					meal = 'Breakfast'
 				elif hour > 14:
@@ -204,11 +233,11 @@ class module_food(botmodule):
 					meal = 'Breakfast' 
 		else:
 			if not meal:
-				self.foodHelp('You must specify a meal when you specify a day.')
+				self.help('You must specify a meal when you specify a day.')
 
-		url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
-		json = simplejson.load(urllib.urlopen(url))
+		self.getJSON(court,day).addCallback(print_results,court,meal,self)
 
+def print_results(json,court,meal,self):
 		#grab first 3 items from every bar
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
 		if not items:
