@@ -5,6 +5,7 @@
 from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from random import choice
+import logging
 #module_youtube
 import simplejson
 import urllib
@@ -23,6 +24,13 @@ class botmodule(object):
 		self.bot = bot
 		triggers = config.get(self.name,'triggers')
 		self.triggers = triggers.split('\n')
+		#set up logging for this module
+		self.log = logging.getLogger(self.name)
+		self.log.setLevel(logging.DEBUG)
+		fh = logging.FileHandler(self.name + '.log')
+		fh.setLevel(logging.DEBUG)
+		fh.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
+		self.log.addHandler(fh)
 		#call user defined init function, if it exists
 		if hasattr(self,'init'):
 			self.init()
@@ -152,31 +160,40 @@ class module_food(botmodule):
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch 2013-12-29")
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch monday")
 
-	def downloadJSON(self,court,day):
-			url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
-			return getPage(url)
 
+	#update entire cache
 	def updateCache(self, day = datetime.now()):
+		self.log.debug("Updating cache")
 		for court in self.acceptable_courts:
-			self.downloadJSON(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court)
+			self.getJSONWeb(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court)
 
 	def updateCacheCallback(self,json,court):
 		self.jsoncache[court]=json
 
-	def getJSON(self,court,day = datetime.now()):
-		
+	#retrieves requested data either from cache or download
+	def getJSON(self,court,day):
 		#if user requests today's menu, try to get from cache
 		if day.date() == datetime.now().date():
-			if court in self.jsoncache.keys():
-				return defer.succeed(self.jsoncache[court])
-			#if not found in cache, update cache and try this func again
-			else:
+			try:
+				return self.getJSONCache(court,day)
+			#if not found in cache, update cache and try via web
+			except KeyError:
+				self.log.debug("Not found in cache : court - {0} : day - {1}".format((court.title(),day.strftime('%Y-%m-%d'))))
 				self.updateCache()
-				return self.getJSON(court,day)
+				return self.getJSONWeb(court,day)
 
 		#if user requests meal for any other day, download it
 		else:
-			return self.downloadJSON(court,day).addCallback(simplejson.loads)
+			return self.getJSONWeb(court,day).addCallback(simplejson.loads)
+	
+	def getJSONCache(self,court,day):
+			self.log.debug("Downloading from cache : court - {0}".format(court.title()))
+			return defer.succeed(self.jsoncache[court])
+
+	def getJSONWeb(self,court,day):
+			self.log.debug("Downloading from web : court - {0}".format(court.title()))
+			url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
+			return getPage(url)
 
 
 	def run(self):
