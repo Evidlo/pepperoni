@@ -265,7 +265,7 @@ def print_results(json,court,meal,self):
 		#grab first 3 items from every bar
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
 		if not items:
-			items = ['Not serving or not found']
+			items = ['Not serving or not found!']
 		message = ':: '+ court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
 		self.bot.msg(self.bot.channel,message)
 
