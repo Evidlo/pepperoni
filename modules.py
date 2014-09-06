@@ -6,6 +6,8 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from random import choice
 import logging
+#module_reload
+import git
 #module_youtube
 import simplejson
 import urllib
@@ -43,6 +45,11 @@ class botmodule(object):
 class module_reload(botmodule):
 	def run(self):
 		self.enabled = False
+		params = self.bot.chat.split(' ')
+		if 'pull' in params:
+			self.log.info('Pulling from github')
+			g = git.cmd.Git()
+			g.pull()
 		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
 		#only enable for user Evidlo
@@ -258,7 +265,7 @@ def print_results(json,court,meal,self):
 		#grab first 3 items from every bar
 		items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
 		if not items:
-			items = ['Not Serving']
+			items = ['Not serving or not found']
 		message = ':: '+ court.title() + ' ' + meal.title() + ': ' + ', '.join(items[:10])
 		self.bot.msg(self.bot.channel,message)
 
