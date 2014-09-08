@@ -38,10 +38,8 @@ class module_reload(botmodule):
 				g = git.cmd.Git()
 				g.pull()
 				self.bot.loadModules()
-				self.bot.msg(self.bot.channel,':: Pulled and reloaded all modules ::')
 			else:
 				self.bot.loadModules()
-				self.bot.msg(self.bot.channel,':: Reloaded all modules ::')
 		return
 
 #lists currently loaded modules
