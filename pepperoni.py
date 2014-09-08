@@ -20,7 +20,7 @@ class Bot(irc.IRCClient):
 	def signedOn(self):
 		for channel in self.factory.channels:
 			self.join(channel)
-		logging.info("Signed on as %s." % self.nickname)
+		self.factory.log.info("Signed on as %s." % self.nickname)
 		self.loadModules()
 
 	def loadModules(self):
@@ -28,11 +28,14 @@ class Bot(irc.IRCClient):
 		module_dir = 'modules'
 		raw_modules = {}
 
-		logging.debug('Loading modules...')
-		logging.debug('Using blacklist: '+self.factory.blacklist.__repr__())
+		self.factory.log.debug('Loading modules...')
+		self.factory.log.debug('Using blacklist: '+self.factory.blacklist.__repr__())
 
-		#reload module settings
-		config.read('settings.ini')
+		try:
+			#reload module settings
+			config.read('settings.ini')
+		except:
+			self.factory.log.info("Error reading config")
 		#load base modules for bot
 		execfile('basemodules.py',raw_modules)
 
@@ -41,21 +44,23 @@ class Bot(irc.IRCClient):
 			for file in os.listdir(module_dir):
 				if file.endswith('.py'):
 					#import all data from each .py
-					execfile(os.path.join(module_dir,file),raw_modules)
-					for name,module in raw_modules.items():
+					try:
+						execfile(os.path.join(module_dir,file),raw_modules)
+						for name,module in raw_modules.items():
 
-						#only load modules that start with 'module_' and aren't blacklisted for this server	
-						logging.debug('Checking module %s'%name)
-						if name.startswith('module_') and name not in self.factory.blacklist:
-							logging.debug('Loading module %s'%name)
-							self.modules.append(module(config,self))
+								#only load modules that start with 'module_' and aren't blacklisted for this server	
+							if name.startswith('module_') and name not in self.factory.blacklist:
+								self.factory.log.debug('Loading module %s'%name)
+								self.modules.append(module(config,self))
+					except:
+						self.factory.info("Failed to load module: {0}".format(file))
 
 	def joined(self, channel):
-		logging.info("Joined %s." % channel)
+		self.factory.log.info("Joined %s." % channel)
 	
 	def kickedFrom(self, channel, kicker, message):
-		logging.info('Kicked from '+channel+' by '+kicker+' with message: '+message)
-		logging.info('Rejoining...')
+		self.factory.log.info('Kicked from '+channel+' by '+kicker+' with message: '+message)
+		self.factory.log.info('Rejoining...')
 		self.join(channel)
 
 	def privmsg(self, user, channel, chat):
@@ -63,7 +68,7 @@ class Bot(irc.IRCClient):
 		self.channel = channel
 		self.chat = chat
 
-		logging.debug("Private Message:"+chat)
+		self.factory.log.debug("Private Message:"+chat)
 
 		#check message against triggers for every module
 		for module in self.modules:
