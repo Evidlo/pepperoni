@@ -28,6 +28,7 @@ class Bot(irc.IRCClient):
 		self.modules = [] 
 		module_dir = 'modules'
 		raw_modules = {}
+		fail_count = 0
 
 		self.factory.log.debug('Loading modules...')
 		self.factory.log.debug('Using blacklist: '+self.factory.blacklist.__repr__())
@@ -49,6 +50,7 @@ class Bot(irc.IRCClient):
 					try:
 						execfile(os.path.join(module_dir,file),raw_modules)
 					except:
+						fail_count++
 						self.factory.log.info("Failed to load module: {0}".format(file))
 						traceback.print_exc()
 			for name,module in raw_modules.items():
@@ -57,6 +59,9 @@ class Bot(irc.IRCClient):
 				if name.startswith('module_') and name not in self.factory.blacklist:
 					self.factory.log.debug('Loading module %s'%name)
 					self.modules.append(module(config,self))
+
+			message = ":: Loaded {0}/{1}".format(len(raw_modules.items())-fail_count,len(raw_modules.items))
+			self.bot.msg(self.bot.channel,message)
 
 	def joined(self, channel):
 		self.factory.log.info("Joined %s." % channel)
