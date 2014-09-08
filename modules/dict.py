@@ -9,7 +9,8 @@ class module_dict(botmodule):
 		definition = ''
 		word=self.bot.chat.split(' ')[1]
 		url='http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + word
-		json = simplejson.load(urllib.urlopen(url))
+		getPage(url).addCallback(simplejson.loads).addCallback(results)
+
+	def results(self,json)
 		definition = json['tuc'][0]['meanings'][0]['text']
-		if definition:
-			self.bot.msg(self.bot.channel,':: ' + definition[0:200])
+		self.bot.msg(self.bot.channel,':: ' + definition[0:200])
