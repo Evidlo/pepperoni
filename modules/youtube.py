@@ -2,6 +2,7 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 import simplejson
 import re
+from basemodules import botmodule
 
 #gets statistics for youtube links - title, rating, views
 class module_youtube(botmodule):

@@ -1,5 +1,6 @@
 from twisted.internet import reactor, defer
 from twisted.web.client import getPage
+from basemodules import botmodule
 
 #responds to actions
 class module_action(botmodule):

@@ -2,6 +2,7 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 import simplejson
 from datetime import datetime,timedelta
+from basemodules import botmodule
 
 #interface for getting the menu from one of purdue's dining courts
 class module_food(botmodule):
@@ -33,6 +34,7 @@ class module_food(botmodule):
 
 	#retrieves requested data either from cache or download
 	def getJSON(self,court,day):
+		self.log.debug("Getting JSON")
 		#if user requests today's menu, try to get from cache
 		if day.date() == datetime.now().date():
 			try:
@@ -113,9 +115,9 @@ class module_food(botmodule):
 			if not meal:
 				self.help('You must specify a meal when you specify a day.')
 
-		self.getJSON(court,day).addCallback(self.print_results,court,meal,self)
+		self.getJSON(court,day).addCallback(self.print_results,court,meal)
 
-	def print_results(json,court,meal,self):
+	def print_results(self,json,court,meal):
 			#grab first 3 items from every bar
 			items = [item["Name"] for bar in json[meal] for item in bar["Items"][:3]]
 			if not items:

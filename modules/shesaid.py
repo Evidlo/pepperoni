@@ -1,7 +1,7 @@
 from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from random import choice
-from botmodule import botmodule
+from basemodules import botmodule
 	
 #spouts a quote by a women as a quip to 'thats what she said'
 class module_shesaid(botmodule):
