@@ -15,7 +15,7 @@ class module_youtube(botmodule):
 		if id:
 			id = id.group(1)
 			url = 'http://gdata.youtube.com/feeds/api/videos/%s?alt=json&v=2' % id 
-			getPage(url).addCallback(simplejson.loads).addCallback(results)
+			getPage(url).addCallback(simplejson.loads).addCallback(self.results)
 
 	def results(self,video):
 			#if ratings exist, calculate percent upvote
