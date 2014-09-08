@@ -11,6 +11,6 @@ class module_dict(botmodule):
 		url='http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + word
 		getPage(url).addCallback(simplejson.loads).addCallback(results)
 
-	def results(self,json)
+	def results(self,json):
 		definition = json['tuc'][0]['meanings'][0]['text']
 		self.bot.msg(self.bot.channel,':: ' + definition[0:200])
