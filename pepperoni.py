@@ -34,8 +34,9 @@ class Bot(irc.IRCClient):
 		try:
 			#reload module settings
 			config.read('settings.ini')
-		except:
+		except Exception as e:
 			self.factory.log.info("Error reading config")
+			self.factory.log.debug(e)
 		#load base modules for bot
 		execfile('basemodules.py',raw_modules)
 
@@ -44,16 +45,14 @@ class Bot(irc.IRCClient):
 			for file in os.listdir(module_dir):
 				if file.endswith('.py'):
 					#import all data from each .py
-					try:
-						execfile(os.path.join(module_dir,file),raw_modules)
-						for name,module in raw_modules.items():
+					execfile(os.path.join(module_dir,file),raw_modules)
+					#self.factory.log.info("Failed to load module: {0}".format(file))
+			for name,module in raw_modules.items():
 
-								#only load modules that start with 'module_' and aren't blacklisted for this server	
-							if name.startswith('module_') and name not in self.factory.blacklist:
-								self.factory.log.debug('Loading module %s'%name)
-								self.modules.append(module(config,self))
-					except:
-						self.factory.info("Failed to load module: {0}".format(file))
+					#only load modules that start with 'module_' and aren't blacklisted for this server	
+				if name.startswith('module_') and name not in self.factory.blacklist:
+					self.factory.log.debug('Loading module %s'%name)
+					self.modules.append(module(config,self))
 
 	def joined(self, channel):
 		self.factory.log.info("Joined %s." % channel)
