@@ -60,7 +60,7 @@ class Bot(irc.IRCClient):
 					self.factory.log.debug('Loading module %s'%name)
 					self.modules.append(module(config,self))
 
-			message = "Loaded {0}/{1}".format(len(raw_modules.items())-fail_count,len(raw_modules.items))
+			message = "Loaded {0}/{1}".format(len(raw_modules.items())-fail_count,len(raw_modules.items()))
 			self.factory.log.info(message)
 			self.bot.msg(self.bot.channel,':: '+message)
 
