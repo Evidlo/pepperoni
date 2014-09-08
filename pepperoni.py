@@ -62,7 +62,7 @@ class Bot(irc.IRCClient):
 
 			message = "Loaded {0}/{1}".format(len(raw_modules.items())-fail_count,len(raw_modules.items()))
 			self.factory.log.info(message)
-			self.bot.msg(self.bot.channel,':: '+message)
+			self.msg(self.bot.channel,':: '+message)
 
 	def joined(self, channel):
 		self.factory.log.info("Joined %s." % channel)
