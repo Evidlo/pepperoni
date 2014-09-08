@@ -6,6 +6,7 @@
 from twisted.internet import reactor, protocol
 from twisted.words.protocols import irc
 from ConfigParser import ConfigParser
+import traceback
 import logging
 import re
 import os
@@ -45,8 +46,11 @@ class Bot(irc.IRCClient):
 			for file in os.listdir(module_dir):
 				if file.endswith('.py'):
 					#import all data from each .py
-					execfile(os.path.join(module_dir,file),raw_modules)
-					#self.factory.log.info("Failed to load module: {0}".format(file))
+					try:
+						execfile(os.path.join(module_dir,file),raw_modules)
+					except:
+						self.factory.log.info("Failed to load module: {0}".format(file))
+						traceback.print_exc()
 			for name,module in raw_modules.items():
 
 					#only load modules that start with 'module_' and aren't blacklisted for this server	
