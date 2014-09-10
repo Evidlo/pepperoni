@@ -22,6 +22,8 @@ class Bot(irc.IRCClient):
 		for channel in self.factory.channels:
 			self.join(channel)
 		self.factory.log.info("Signed on as %s." % self.nickname)
+		self.factory.log.info("Identifying with password")
+		self.msg('nickserv','identify %s' % self.factory.password)
 		self.loadModules()
 
 	def irc_ERR_PASSWDMISMATCH(self):
@@ -68,6 +70,7 @@ class Bot(irc.IRCClient):
 
 	def joined(self, channel):
 		self.factory.log.info("Joined %s." % channel)
+		self.factory.log.info("Identifying now")
 	
 	def kickedFrom(self, channel, kicker, message):
 		self.factory.log.info('Kicked from '+channel+' by '+kicker+' with message: '+message)
@@ -75,6 +78,7 @@ class Bot(irc.IRCClient):
 		self.join(channel)
 
 	def privmsg(self, user, channel, chat):
+		print 'log is type:',type(log)
 		self.user = user.split('!')[0]
 		self.channel = channel
 		self.chat = chat
