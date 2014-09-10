@@ -24,6 +24,9 @@ class Bot(irc.IRCClient):
 		self.factory.log.info("Signed on as %s." % self.nickname)
 		self.loadModules()
 
+	def irc_ERR_PASSWDMISMATCH(self):
+		self.factory.log.info("Password incorrect, not identified")
+
 	def loadModules(self):
 		self.modules = [] 
 		module_dir = 'modules'
