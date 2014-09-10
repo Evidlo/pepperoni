@@ -56,12 +56,12 @@ class Bot(irc.IRCClient):
 						execfile(os.path.join(module_dir,file),raw_modules)
 					except:
 						fail_count+=1
-						self.factory.log.info("Failed to load module: {0}".format(file))
+						self.factory.log.info("Gailed to load module: {0}".format(file))
 						traceback.print_exc()
 			for name,module in raw_modules.items():
 
 					#only load modules that start with 'module_' and aren't blacklisted for this server	
-				if name.startswith('module_') and name not in self.factory.blacklist:
+				if name.startswith('module_') and name not in self.factory.blacklist and config:
 					self.factory.log.debug('Loading module %s'%name)
 					self.modules.append(module(config,self))
 
@@ -78,7 +78,6 @@ class Bot(irc.IRCClient):
 		self.join(channel)
 
 	def privmsg(self, user, channel, chat):
-		print 'log is type:',type(log)
 		self.user = user.split('!')[0]
 		self.channel = channel
 		self.chat = chat
