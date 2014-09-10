@@ -92,18 +92,19 @@ class Bot(irc.IRCClient):
 class BotFactory(protocol.ClientFactory):
 	protocol = Bot
 
-	def __init__(self, channels, nickname, blacklist,log):
+	def __init__(self, channels, nickname,password, blacklist,log):
 		self.channels = channels
 		self.nickname = nickname
 		self.blacklist = blacklist
 		self.log = log
+		self.password = password
 
 	def clientConnectionLost(self, connector, reason):
-		logging.info("Connection lost. Reason: %s" % reason)
+		self.log.info("Connection lost. Reason: %s" % reason)
 		connector.connect()
 
 	def clientConnectionFailed(self, connector, reason):
-		logging.info("Connection failed. Reason: %s" % reason)
+		self.log.info("Connection failed. Reason: %s" % reason)
 
 
 
@@ -112,7 +113,24 @@ if __name__ == "__main__":
 	config.read('settings.ini')		
 	
 	#start up each instance of the bot, and join each channel/server with given nick
-	instances = [{'host':host,'channels':channels,'nick':nick,'blacklist':blacklist,'logfile':logfile} for host,channels,nick,blacklist,logfile in zip(config.get('bot','host').split(','),config.get('bot','channel').split(','),config.get('bot','nick').split(','),config.get('bot','blacklist').split(','),config.get('bot','logfile').split(','))]
+	instances = [
+		{
+		'host':host,
+		'channels':channels,
+		'nick':nick,
+		'blacklist':blacklist,
+		'logfile':logfile,
+		'password':password
+		} 
+		for host,channels,nick,blacklist,logfile,password in zip(
+			config.get('bot','host').split(','),
+			config.get('bot','channel').split(','),
+			config.get('bot','nick').split(','),
+			config.get('bot','blacklist').split(','),
+			config.get('bot','logfile').split(','),
+			config.get('bot','password').split(',')
+			)
+	]
 	for instance in instances:
 		print instance
 
@@ -124,5 +142,5 @@ if __name__ == "__main__":
 		fh.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
 		log.addHandler(fh)
 
-		reactor.connectTCP(instance['host'], 6667, BotFactory(instance['channels'].split(' '),instance['nick'],instance['blacklist'].split(' '),log))
+		reactor.connectTCP(instance['host'], 6667, BotFactory(instance['channels'].split(' '),instance['nick'],instance['password'],instance['blacklist'].split(' '),log))
 	reactor.run()
