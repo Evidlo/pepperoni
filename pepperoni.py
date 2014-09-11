@@ -44,7 +44,7 @@ class Bot(irc.IRCClient):
 		except Exception as e:
 			self.factory.log.info("Error reading config")
 			self.factory.log.debug(e)
-		#load base modules for bot
+		#load base modules for bot, note that execfile appends to dict
 		execfile('basemodules.py',raw_modules)
 
 		if os.path.isdir(module_dir):
@@ -56,7 +56,7 @@ class Bot(irc.IRCClient):
 						execfile(os.path.join(module_dir,file),raw_modules)
 					except:
 						fail_count+=1
-						self.factory.log.info("Gailed to load module: {0}".format(file))
+						self.factory.log.info("Failed to load module: {0}".format(file))
 						traceback.print_exc()
 			for name,module in raw_modules.items():
 

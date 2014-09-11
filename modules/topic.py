@@ -36,4 +36,3 @@ class module_topic(botmodule):
 		self.log.info('Got calendar results')
 		self.log.info(message)
 		self.bot.topic(self.bot.channel,message.encode('utf8'))
-		self.bot.msg('test')

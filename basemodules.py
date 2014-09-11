@@ -38,9 +38,8 @@ class module_reload(botmodule):
 				self.log.info('Pulling from github')
 				g = git.cmd.Git()
 				g.pull()
-				self.bot.loadModules()
-			else:
-				self.bot.loadModules()
+
+			self.bot.loadModules()
 		return
 
 #lists currently loaded modules
