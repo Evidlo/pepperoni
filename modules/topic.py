@@ -3,7 +3,7 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from basemodules import botmodule
 import json
-import datetime
+from datetime import datetime
 import urllib
 
 #updates the topic with the latest events from the Purdue Linux Users Group Calendar
@@ -15,7 +15,7 @@ class module_topic(botmodule):
 		self.enabled = False
 		#schedule this module to be reenabled after 'self.rate' seconds
 		reactor.callLater(self.rate,lambda:self.enable())
-		date = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S-0500')
+		date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S-0500')
 		url = 'https://www.googleapis.com/calendar/v3/calendars/0q5kmi03heskp39fpg73iniapc%40group.calendar.google.com/events?orderBy=startTime&singleEvents=true&maxResults=2&timeMin='+date+'&fields=items%28start%2Csummary%2Clocation%29&key='+self.key
 		self.log.info('Using key:'+self.key)
 
@@ -28,7 +28,7 @@ class module_topic(botmodule):
 		events = []
 		for event in data['items']:
 			#read in date, chop off 6 char timezone
-			time = datetime.datetime.strptime(event['start']['dateTime'][:-6],'%Y-%m-%dT%H:%M:%S')
+			time = datetime.strptime(event['start']['dateTime'][:-6],'%Y-%m-%dT%H:%M:%S')
 			#apply custom formatting to data
 			events.append('{0} - {1} at {2}'.format(event['summary'],time.strftime('%a., %b. %d, %I:%M%p'),event['location']))
 
