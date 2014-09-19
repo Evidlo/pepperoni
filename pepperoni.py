@@ -82,8 +82,6 @@ class Bot(irc.IRCClient):
 		self.channel = channel
 		self.chat = chat
 
-		self.factory.log.debug("Private Message:"+chat)
-
 		#check message against triggers for every module
 		for module in self.modules:
 			if module.enabled:
