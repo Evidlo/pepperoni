@@ -50,7 +50,7 @@ class module_food(botmodule):
 			return self.getJSONWeb(court,day).addCallback(simplejson.loads)
 	
 	def getJSONCache(self,court,day):
-			self.log.debug("Downloading from cache : court - {0}".format(court.title()))
+			self.log.debug("Downloading from cache : {0} - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
 			return defer.succeed(self.jsoncache[court])
 
 	def getJSONWeb(self,court,day):
