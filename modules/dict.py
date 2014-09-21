@@ -5,12 +5,16 @@ import simplejson
 
 #get regular definitions from glosbe dictionary
 class module_dict(botmodule):
+	def results(self,json):
+		print json
+		definition = json['tuc'][0]['meanings'][0]['text']
+		self.bot.msg(self.bot.channel,':: ' + definition.split('.')[0])
+
 	def run(self):
 		definition = ''
-		word=self.bot.chat.split(' ')[1]
-		url='http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + word
-		getPage(url).addCallback(simplejson.loads).addCallback(results)
+		args=self.bot.chat.split(' ')
+		if len(args) >= 2:
+			url='http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + args[1]
+			print url
+			getPage(url).addCallback(simplejson.loads).addCallback(self.results)
 
-	def results(self,json):
-		definition = json['tuc'][0]['meanings'][0]['text']
-		self.bot.msg(self.bot.channel,':: ' + definition[0:200])
