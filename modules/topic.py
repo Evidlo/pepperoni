@@ -12,9 +12,6 @@ class module_topic(botmodule):
 		self.key = self.config.get(self.name,'key')
 
 	def run(self):
-		self.enabled = False
-		#schedule this module to be reenabled after 'self.rate' seconds
-		reactor.callLater(self.rate,lambda:self.enable())
 		date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S-0500')
 		url = 'https://www.googleapis.com/calendar/v3/calendars/0q5kmi03heskp39fpg73iniapc%40group.calendar.google.com/events?orderBy=startTime&singleEvents=true&maxResults=2&timeMin='+date+'&fields=items%28start%2Csummary%2Clocation%29&key='+self.key
 		self.log.info('Using key:'+self.key)
