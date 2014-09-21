@@ -21,17 +21,22 @@ class botmodule(object):
 		if hasattr(self,'init'):
 			self.init()
 
-
 	def enable(self):
 		self.enabled = True
+
+	def __run__(self):
+		#disable the module and schedule a reenable after timeout period 'rate'
+		self.enabled = False
+		reactor.callLater(self.rate,lambda:self.enable())
+		#call user defined run function, if it exists
+		if hasattr(self,'run'):
+			self.run()
+
 
 #reloads this file on !reload command
 class module_reload(botmodule):
 	def run(self):
-		self.enabled = False
 		params = self.bot.chat.split(' ')
-		#schedule this module to be reenabled after 'self.rate' seconds
-		reactor.callLater(self.rate,lambda:self.enable())
 		#only enable for user Evidlo
 		if self.bot.user == 'Evidlo':
 			if 'pull' in params:
@@ -45,9 +50,6 @@ class module_reload(botmodule):
 #lists currently loaded modules
 class module_loaded(botmodule):
 	def run(self):
-		self.enabled=False
-		#schedule this module to be reenabled after 'self.rate' seconds
-		reactor.callLater(self.rate,lambda:self.enable())
 		if self.bot.user == 'Evidlo':
 				loaded_modules = ', '.join([module.name for module in self.bot.modules])
 				self.bot.msg(self.bot.channel,':: Loaded modules: ' + loaded_modules)

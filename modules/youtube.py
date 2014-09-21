@@ -7,9 +7,6 @@ from basemodules import botmodule
 #gets statistics for youtube links - title, rating, views
 class module_youtube(botmodule):
 	def run(self):
-		self.enabled = False
-		#schedule this module to be reenabled after 'self.rate' seconds
-		reactor.callLater(self.rate,lambda:self.enable())
 		
 		id = re.match(".*?v=([a-zA-Z0-9_-]{11}).*",str(self.bot.chat))
 		if id:

@@ -87,7 +87,7 @@ class Bot(irc.IRCClient):
 			if module.enabled:
 				for trigger in module.triggers:
 					if re.search(trigger,chat):
-						module.run()
+						module.__run__()
 						return
 	
 	def action(self, user, channel, chat):

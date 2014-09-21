@@ -5,6 +5,4 @@ from basemodules import botmodule
 #dmesg
 class module_dmesg(botmodule):
 	def run(self):
-		self.enabled = False
-		reactor.callLater(self.rate,lambda:self.enable())
 		self.bot.msg(self.bot.channel,'wat')

@@ -11,7 +11,4 @@ class module_shesaid(botmodule):
 			self.quotes = quotesFileObj.readlines()
 
 	def run(self):
-		self.enabled = False
-		#schedule this module to be reenabled after 'self.rate' seconds
-		reactor.callLater(self.rate,lambda:self.enable())
 		self.bot.msg(self.bot.channel,choice(self.quotes))

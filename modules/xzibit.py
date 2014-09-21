@@ -5,9 +5,6 @@ from basemodules import botmodule
 #xzibit dat stuff
 class module_yodawg(botmodule):
 	def run(self):
-		self.enabled = False
-		#schedule this module to be reenabled after 'self.rate' seconds
-		reactor.callLater(self.rate,lambda:self.enable())
 		words = self.bot.chat.split(' ')
 		a = b = None
 		if len(words) == 2:

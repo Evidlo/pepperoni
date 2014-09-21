@@ -13,8 +13,6 @@ class module_food(botmodule):
 		self.relative_days = {'tomorrow':1,'today':0,'yesterday':-1}
 		self.jsoncache={}
 
-		self.updateCache()
-
 	def help(self,message):
 		self.bot.notice(self.bot.user,message)
 		self.bot.notice(self.bot.user," Usage: !food <court> [<meal>] [<YYYY-MM-DD>|<weekday>|tomorrow]")
@@ -24,13 +22,12 @@ class module_food(botmodule):
 
 
 	#update entire cache
-	def updateCache(self, day = datetime.now()):
-		self.log.debug("Updating cache")
-		for court in self.acceptable_courts:
-			self.getJSONWeb(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court)
+	def updateCache(self, court, day = datetime.now()):
+		self.log.debug("Updating cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
+		self.getJSONWeb(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court,day)
 
-	def updateCacheCallback(self,json,court):
-		self.jsoncache[court]=json
+	def updateCacheCallback(self,json,court,day):
+		self.jsoncache[court]={'date':day.date(),'json':json}
 
 	#retrieves requested data either from cache or download
 	def getJSON(self,court,day):
@@ -39,11 +36,11 @@ class module_food(botmodule):
 		if day.date() == datetime.now().date():
 			try:
 				return self.getJSONCache(court,day)
-			#if not found in cache, update cache and try via web
-			except KeyError:
-				self.log.debug("Not found in cache : court - {0} : day - {1}".format((court.title(),day.strftime('%Y-%m-%d'))))
-				self.updateCache()
-				return self.getJSONWeb(court,day)
+			#if not found in cache (old cache?), update cache and try via web
+			except:
+				self.log.debug("Not found in cache : court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
+				self.updateCache(court.title())
+				return self.getJSONCache(court,day)
 
 		#if user requests meal for any other day, download it
 		else:
@@ -51,7 +48,11 @@ class module_food(botmodule):
 	
 	def getJSONCache(self,court,day):
 			self.log.debug("Downloading from cache : {0} - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
-			return defer.succeed(self.jsoncache[court])
+			print 'checking to see if cache is recent'
+			if self.jsoncache[court]['date']==day.date():
+				return defer.succeed(self.jsoncache[court]['json'])
+			else:
+				raise
 
 	def getJSONWeb(self,court,day):
 			self.log.debug("Downloading from web : court - {0}".format(court.title()))
@@ -60,10 +61,6 @@ class module_food(botmodule):
 
 
 	def run(self):
-		self.enabled = False
-		#schedule this module to be reenabled after 'self.rate' seconds
-		reactor.callLater(self.rate,lambda:self.enable())
-		
 		params = self.bot.chat.split(' ')
 
 		if len(params) < 2 or 'help' in params or '-h' in params:
