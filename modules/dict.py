@@ -7,7 +7,7 @@ import simplejson
 class module_dict(botmodule):
 	def results(self,json):
 		definition = json['tuc'][0]['meanings'][0]['text']
-		self.bot.msg(self.bot.channel,':: ' + definition[:25]+definition[25:].split('.')[0])
+		self.bot.msg(self.bot.channel,(':: ' + definition[:25]+definition[25:].split('.')[0])[:150])
 
 	def run(self):
 		definition = ''
