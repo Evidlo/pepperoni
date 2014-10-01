@@ -50,6 +50,7 @@ class module_food(botmodule):
 			self.log.debug("Downloading from cache : {0} - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
 			print 'checking to see if cache is recent'
 			if self.jsoncache[court]['date']==day.date():
+				self.log.debug("Success in finding cache")
 				return defer.succeed(self.jsoncache[court]['json'])
 			else:
 				raise
