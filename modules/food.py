@@ -21,13 +21,33 @@ class module_food(botmodule):
 		self.bot.notice(self.bot.user," Example usage: !food hillenbrand lunch monday")
 
 
-	#update entire cache
+	#update cache for specified dining court
 	def updateCache(self, court, day = datetime.now()):
 		self.log.debug("Updating cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
-		self.getJSONWeb(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court,day)
+		return self.getJSONWeb(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court,day)
 
+	#once requested json is downloaded, add it to the cache
 	def updateCacheCallback(self,json,court,day):
+		self.log.debug("Adding data to cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
 		self.jsoncache[court]={'date':day.date(),'json':json}
+		return self.jsoncache[court]
+	
+	#try to find the requested cached data, raise error if not found
+	def getJSONCache(self,court,day):
+		self.log.debug("Currently in cache: "+self.jsoncache.keys().__repr__())
+		if self.jsoncache[court]['date']==day.date():
+			self.log.debug("Downloading from cache : {0} - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
+			self.log.debug("Success in finding cache")
+			return defer.succeed(self.jsoncache[court]['json'])
+		else:
+			self.log.debug("Not found in cache : court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
+			raise
+
+	#download json data for this dining court from the web
+	def getJSONWeb(self,court,day):
+			self.log.debug("Downloading from web : court - {0}".format(court.title()))
+			url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
+			return getPage(url)
 
 	#retrieves requested data either from cache or download
 	def getJSON(self,court,day):
@@ -36,30 +56,14 @@ class module_food(botmodule):
 		if day.date() == datetime.now().date():
 			try:
 				return self.getJSONCache(court,day)
-			#if not found in cache (old cache?), update cache and try via web
+			#if not found in cache (old cache?), update cache and try via web, then return the deferred
 			except:
-				self.log.debug("Not found in cache : court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
-				self.updateCache(court.title())
-				return self.getJSONCache(court,day)
+				self.log.debug("Not found in cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
+				return self.updateCache(court).addCallback(self.getJSONCache)
 
 		#if user requests meal for any other day, download it
 		else:
 			return self.getJSONWeb(court,day).addCallback(simplejson.loads)
-	
-	def getJSONCache(self,court,day):
-			self.log.debug("Downloading from cache : {0} - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
-			print 'checking to see if cache is recent'
-			if self.jsoncache[court]['date']==day.date():
-				self.log.debug("Success in finding cache")
-				return defer.succeed(self.jsoncache[court]['json'])
-			else:
-				raise
-
-	def getJSONWeb(self,court,day):
-			self.log.debug("Downloading from web : court - {0}".format(court.title()))
-			url = "http://api.hfs.purdue.edu/menus/v1/locations/"+court+"/"+day.strftime("%m-%d-%Y")
-			return getPage(url)
-
 
 	def run(self):
 		params = self.bot.chat.split(' ')
