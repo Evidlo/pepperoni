@@ -30,12 +30,12 @@ class module_food(botmodule):
 	def updateCacheCallback(self,json,court,day):
 		self.log.debug("Adding data to cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
 		self.jsoncache[court]={'date':day.date(),'json':json}
-		return self.jsoncache[court]
+		return self.jsoncache[court]['json']
 	
 	#try to find the requested cached data, raise error if not found
 	def getJSONCache(self,court,day):
-		self.log.debug("Currently in cache: "+self.jsoncache.keys().__repr__())
-		if self.jsoncache[court]['date']==day.date():
+		self.log.debug("Currently in cache: "+repr(self.jsoncache.keys()))
+		if court in self.jsoncache.keys() and self.jsoncache[court]['date']==day.date():
 			self.log.debug("Downloading from cache : {0} - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
 			self.log.debug("Success in finding cache")
 			return defer.succeed(self.jsoncache[court]['json'])
@@ -58,8 +58,7 @@ class module_food(botmodule):
 				return self.getJSONCache(court,day)
 			#if not found in cache (old cache?), update cache and try via web, then return the deferred
 			except:
-				self.log.debug("Not found in cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
-				return self.updateCache(court).addCallback(self.getJSONCache)
+				return self.updateCache(court)
 
 		#if user requests meal for any other day, download it
 		else:
