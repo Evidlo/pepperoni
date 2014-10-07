@@ -22,7 +22,7 @@ class module_food(botmodule):
 
 
 	#update cache for specified dining court
-	def updateCache(self, court, day = datetime.now()):
+	def updateCache(self, court, day):
 		self.log.debug("Updating cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
 		return self.getJSONWeb(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court,day)
 
@@ -58,7 +58,7 @@ class module_food(botmodule):
 				return self.getJSONCache(court,day)
 			#if not found in cache (old cache?), update cache and try via web, then return the deferred
 			except:
-				return self.updateCache(court)
+				return self.updateCache(court,day)
 
 		#if user requests meal for any other day, download it
 		else:
