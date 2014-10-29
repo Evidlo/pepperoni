@@ -13,7 +13,7 @@ class module_topic(botmodule):
 
 	def run(self):
 		date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S-0500')
-		url = 'https://www.googleapis.com/calendar/v3/calendars/0q5kmi03heskp39fpg73iniapc%40group.calendar.google.com/events?orderBy=startTime&singleEvents=true&maxResults=6&timeMin='+date+'&fields=items%28start%2Csummary%2Clocation%29&key='+self.key
+		url = 'https://www.googleapis.com/calendar/v3/calendars/0q5kmi03heskp39fpg73iniapc%40group.calendar.google.com/events?orderBy=startTime&singleEvents=true&maxResults=50&timeMin='+date+'&fields=items%28start%2Csummary%2Clocation%29&key='+self.key
 		self.log.info('Using key:'+self.key)
 
 		#grab data from api
