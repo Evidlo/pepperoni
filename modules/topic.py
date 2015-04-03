@@ -8,29 +8,41 @@ import urllib
 
 #updates the topic with the latest events from the Purdue Linux Users Group Calendar
 class module_topic(botmodule):
-	def init(self):
-		self.key = self.config.get(self.name,'key')
+    def init(self):
+        self.key = self.config.get(self.name,'key')
 
-	def run(self):
-		date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S-0500')
-		url = 'https://www.googleapis.com/calendar/v3/calendars/0q5kmi03heskp39fpg73iniapc%40group.calendar.google.com/events?orderBy=startTime&singleEvents=true&maxResults=50&timeMin='+date+'&fields=items%28start%2Csummary%2Clocation%29&key='+self.key
-		self.log.info('Using key:'+self.key)
+    def run(self):
+        #Current datetime for calculating which events have not occured
+        date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S-0500')
+        #Google Calendar Api URL
+        url = 'https://www.googleapis.com/calendar/v3/calendars/0q5kmi03heskp39fpg73iniapc%40group.calendar.google.com/events?orderBy=startTime&singleEvents=true&maxResults=50&timeMin='+date+'&fields=items%28start%2Csummary%2Clocation%29&key='+self.key
+        self.log.info('Using key:'+self.key)
 
-		#grab data from api
-		try:
-			data = json.load(urllib.urlopen(url))
-		except:
-			self.log.info('Unable to fetch Gcal results')
+        #grab data from api
+        try:
+            data = json.load(urllib.urlopen(url))
+        except:
+            self.log.info('Unable to fetch Gcal results')
 
-		events = []
-		for event in data['items']:
-			if 'office hours' not in event['summary'].lower():
-				#read in date, chop off 6 char timezone
-				time = datetime.strptime(event['start']['dateTime'][:-6],'%Y-%m-%dT%H:%M:%S')
-				#apply custom formatting to data
-				events.append('{0} - {1} at {2}'.format(event['summary'],time.strftime('%a., %b. %d, %I:%M%p'),event['location']))
+        events_text = []
+        for event in data['items']:
+            if 'office hours' not in event['summary'].lower():
+                #read in date, chop off 6 char timezone
+                if 'start' in event:
+                    if 'dateTime' in event['start']:
+                        time = datetime.strptime(event['start']['dateTime'][:-6],'%Y-%m-%dT%H:%M:%S')
+                #apply custom formatting to data
+                event_text=''
+                if 'summary' in event:
+                    event_text+=event['summary']
+                if time:
+                    event_text += ' - ' + time.strftime('%a., %b. %d, %I:%M%p')
+                if 'location' in event:
+                    event_text += event['location']
 
-		message = 'Upcoming Events :: ' + ' | '.join(events[:2])
-		self.log.info('Got calendar results')
-		self.log.info(message)
-		self.bot.topic(self.bot.channel,message.encode('utf8'))
+                events_text.append(event_text)
+
+        message = 'Upcoming Events :: ' + ' | '.join(events_text[:2])
+        self.log.info('Got calendar results')
+        self.log.info(message)
+        self.bot.topic(self.bot.channel,message.encode('utf8'))
