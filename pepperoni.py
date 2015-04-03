@@ -12,6 +12,7 @@ import re
 import os
 
 
+
 class Bot(irc.IRCClient):
 
 	def _get_nickname(self):
@@ -29,6 +30,7 @@ class Bot(irc.IRCClient):
 	def irc_ERR_PASSWDMISMATCH(self):
 		self.factory.log.info("Password incorrect, not identified")
 
+    #loads user written modules
 	def loadModules(self):
 		self.modules = [] 
 		module_dir = 'modules'
