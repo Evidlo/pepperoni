@@ -38,7 +38,7 @@ class module_topic(botmodule):
                 if time:
                     event_text += ' - ' + time.strftime('%a., %b. %d, %I:%M%p')
                 if 'location' in event:
-                    event_text += event['location']
+                    event_text += ' ' + event['location']
 
                 events_text.append(event_text)
 
