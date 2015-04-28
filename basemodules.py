@@ -7,50 +7,52 @@ import git
 
 #Module class which all modules inherit from
 class botmodule(object):
-	def __init__(self,config,bot):
-		self.enabled = True
-		#grab name of this module
-		self.name = ''.join(self.__class__.__name__)
-		self.rate = int(config.get(self.name,'rate',0))
-		self.bot = bot
-		self.config = config
-		self.log = self.bot.factory.log
-		triggers = config.get(self.name,'triggers')
-		self.triggers = triggers.split('\n')
-		#call user defined init function, if it exists
-		if hasattr(self,'init'):
-			self.init()
+    def __init__(self,config,bot):
+        self.enabled = True
+        #grab name of this module
+        self.name = ''.join(self.__class__.__name__)
+        self.rate = int(config.get(self.name,'rate',0))
+        self.bot = bot
+        self.config = config
+        self.log = self.bot.factory.log
+        triggers = config.get(self.name,'triggers')
+        self.triggers = triggers.split('\n')
+        #call user defined init function, if it exists
+        if hasattr(self,'init'):
+            self.init()
 
-	def enable(self):
-		self.enabled = True
+    def enable(self):
+        self.enabled = True
 
-	def __run__(self):
-		#disable the module and schedule a reenable after timeout period 'rate'
-		self.enabled = False
-		reactor.callLater(self.rate,lambda:self.enable())
-		#call user defined run function, if it exists
-		if hasattr(self,'run'):
-			self.run()
+    def __run__(self):
+        #write to log
+        self.log.info('Module {0} called by user {1}'.format(self.name,self.bot.user))
+        #disable the module and schedule a reenable after timeout period 'rate'
+        self.enabled = False
+        reactor.callLater(self.rate,lambda:self.enable())
+        #call user defined run function, if it exists
+        if hasattr(self,'run'):
+            self.run()
 
 
 #reloads this file on !reload command
 class module_reload(botmodule):
-	def run(self):
-		params = self.bot.chat.split(' ')
-		#only enable for user Evidlo
-		if self.bot.user == 'Evidlo':
-			if 'pull' in params:
-				self.log.info('Pulling from github')
-				g = git.cmd.Git()
-				g.pull()
+    def run(self):
+        params = self.bot.chat.split(' ')
+        #only enable for user Evidlo
+        if self.bot.user == 'Evidlo':
+            if 'pull' in params:
+                self.log.info('Pulling from github')
+                g = git.cmd.Git()
+                g.pull()
 
-			self.bot.loadModules()
-		return
+            self.bot.loadModules()
+        return
 
 #lists currently loaded modules
 class module_loaded(botmodule):
-	def run(self):
-		if self.bot.user == 'Evidlo':
-				loaded_modules = ', '.join([module.name for module in self.bot.modules])
-				self.bot.msg(self.bot.channel,':: Loaded modules: ' + loaded_modules)
-		return
+    def run(self):
+        if self.bot.user == 'Evidlo':
+                loaded_modules = ', '.join([module.name for module in self.bot.modules])
+                self.bot.msg(self.bot.channel,':: Loaded modules: ' + loaded_modules)
+        return
