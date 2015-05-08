@@ -4,8 +4,6 @@ Features a settings file, modular addons, command rate limiting, and addon reloa
 
 =========
 
-Everyone's favorite sausagebot.
-
 ##Files
 ###pepperoni.py
 Contains python-twisted Bot and BotFactory.  Loads initial settings from config.
@@ -15,3 +13,7 @@ Contains the user-defined functionalities of the bot.  Each module contains an i
 Some core modules for the bot.
 ###settings.ini
 Contains settings for the bot and various modules.  Read by ConfigParser
+
+##Plans
+- replace twisted-python with tulip for asynchronous functionality
+- replace twisted-python's IRC interface with a custom built one in Go
