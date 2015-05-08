@@ -1,0 +1,75 @@
+;Bot Settings
+
+
+#separate items on same server with ' ' (whitespace) and items on different servers with ','
+
+[bot]
+channel = #testroom #testroom2,#test
+host = irc.efnet.org,irc.freenode.net
+nick = pepperoni,pepperoni
+blacklist = ,
+logfile = log/efnet.log,log/freenode.log
+password = password1,password2
+
+;Module Settings
+
+;[name] - put the module name in brackets (modules must begin with 'module_')
+;rate - specify how many seconds this module should be disabled after being triggered
+;triggers - specify one regular expression per line to trigger module
+
+[module_reload]
+triggers = !reload
+rate = 3
+
+[module_loaded]
+triggers = !loaded
+rate=3
+
+[module_shesaid]
+triggers = [module_Tt]hat'?s what she said
+	thats what she said
+rate = 3
+quotesFile = quotes.txt
+
+[module_leet]
+triggers = ^!leet
+rate = 3
+
+[module_yodawg]
+triggers = &^
+rate = 3
+
+[module_youtube]
+triggers = youtube.com
+	youtu.be
+rate = 3
+key = youtube_api_server_key
+
+[module_food]
+triggers = ^\s*!food
+rate = 3
+
+[module_action]
+rate = 3
+triggers = \S+s peetsa
+
+[module_zalgo]
+rate = 3
+triggers = ^!zalgo
+
+[module_dmesg]
+rate = 3
+triggers = ^!dmesg
+
+[module_poodict]
+rate=1
+triggers = ^!pudict
+
+[module_dict]
+rate=5
+triggers = ^!dict
+
+[module_topic]
+rate=5
+triggers = ^!topic
+key = AIzaSyBXYuzmUm1On46n5fP_rSFskfcg3dQQ_MQ
