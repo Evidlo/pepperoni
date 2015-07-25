@@ -51,8 +51,10 @@ class module_reload(botmodule):
 
 #lists currently loaded modules
 class module_loaded(botmodule):
+    def init(self):
+        self.owner = self.bot.factory.config.get('bot','owner')
     def run(self):
-        if self.bot.user == 'Evidlo':
+        if self.bot.user == self.owner:
                 loaded_modules = ', '.join([module.name for module in self.bot.modules])
                 self.bot.msg(self.bot.channel,':: Loaded modules: ' + loaded_modules)
         return
