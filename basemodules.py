@@ -25,22 +25,27 @@ class botmodule(object):
         self.enabled = True
 
     def __run__(self):
-        #write to log
+        #log a module getting called and its arguments
         self.log.info('Module {0} called by user {1}'.format(self.name,self.bot.user))
+        params = self.bot.chat.split(' ')
+        self.log.info(params)
         #disable the module and schedule a reenable after timeout period 'rate'
         self.enabled = False
         reactor.callLater(self.rate,lambda:self.enable())
         #call user defined run function, if it exists
         if hasattr(self,'run'):
             self.run()
-
+        else:
+            self.log.debug('No "run" function found for this module. Ignoring')
 
 #reloads this file on !reload command
 class module_reload(botmodule):
+    def init(self):
+        self.owner = self.bot.factory.config.get('bot','owner')
     def run(self):
         params = self.bot.chat.split(' ')
-        #only enable for user Evidlo
-        if self.bot.user == 'Evidlo':
+        #only enable for owner
+        if self.bot.user == self.owner:
             if 'pull' in params:
                 self.log.info('Pulling from github')
                 g = git.cmd.Git()
@@ -51,10 +56,8 @@ class module_reload(botmodule):
 
 #lists currently loaded modules
 class module_loaded(botmodule):
-    def init(self):
-        self.owner = self.bot.factory.config.get('bot','owner')
     def run(self):
-        if self.bot.user == self.owner:
+        if self.bot.user == 'Evidlo':
                 loaded_modules = ', '.join([module.name for module in self.bot.modules])
                 self.bot.msg(self.bot.channel,':: Loaded modules: ' + loaded_modules)
         return

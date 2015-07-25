@@ -4,6 +4,7 @@
 #separate items on same server with ' ' (whitespace) and items on different servers with ','
 
 [bot]
+owner = yourusername
 channel = #testroom #testroom2,#test
 host = irc.efnet.org,irc.freenode.net
 nick = pepperoni,pepperoni
