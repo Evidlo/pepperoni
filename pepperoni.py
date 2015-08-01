@@ -147,7 +147,14 @@ if __name__ == "__main__":
             logmode = logging.DEBUG
         else:
             logmode = logging.INFO
-            
+
+        #get port from `host`
+        split_host = host.split(':')
+        if len(split_host) == 2:
+            port = split_host[1]
+        else:
+            port = 6667
+
         log = logging.getLogger(instance['logfile'])
         log.setLevel(logmode)
         fh = logging.FileHandler(instance['logfile'])
@@ -156,5 +163,5 @@ if __name__ == "__main__":
         log.addHandler(fh)
         log.info('Current log level: {0}'.format(log.getEffectiveLevel()))
 
-        reactor.connectTCP(instance['host'], 6667, BotFactory(instance['channels'].split(' '),instance['nick'],instance['password'],instance['blacklist'].split(' '),log))
+        reactor.connectTCP(instance['host'], port, BotFactory(instance['channels'].split(' '),instance['nick'],instance['password'],instance['blacklist'].split(' '),log))
     reactor.run()
