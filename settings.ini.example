@@ -10,6 +10,7 @@ host = irc.efnet.org,irc.freenode.net
 nick = pepperoni,pepperoni
 blacklist = ,
 logfile = log/efnet.log,log/freenode.log
+loglevel = debug
 password = password1,password2
 
 ;Module Settings
