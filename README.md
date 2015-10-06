@@ -3,6 +3,8 @@ An IRC bot I wrote using python-twisted.
 Features a settings file, modular addons, command rate limiting, and addon reloading during runtime.
 
 =========
+#Dependencies (install through pip)
+    pip install twisted simplejson pygit
 
 ##Files
 ###pepperoni.py
