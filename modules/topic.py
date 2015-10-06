@@ -28,6 +28,7 @@ class module_topic(botmodule):
         for event in data['items']:
             if 'office hours' not in event['summary'].lower():
                 #read in date, chop off 6 char timezone
+                time = None
                 if 'start' in event:
                     if 'dateTime' in event['start']:
                         time = datetime.strptime(event['start']['dateTime'][:-6],'%Y-%m-%dT%H:%M:%S')
