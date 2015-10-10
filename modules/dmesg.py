@@ -5,4 +5,4 @@ from basemodules import botmodule
 #dmesg
 class module_dmesg(botmodule):
 	def run(self):
-		self.bot.msg(self.bot.channel,'wat')
+		self.bot.msg(self.bot.channel,'i said wat wat...')

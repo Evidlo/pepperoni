@@ -10,7 +10,7 @@ class module_poodict(botmodule):
             self.log.info(json)
             try:
                     definition = json['list'][0]['definition']
-                    message = ':: ' + definition[:10] + definition[10:].split('.')[0]
+                    message = ':: ' + definition[:75] + definition[75:].split('.')[0]
                     self.bot.msg(self.bot.channel,message)
             except KeyError:
                     self.log.info('Definition not found')
