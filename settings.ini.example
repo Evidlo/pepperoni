@@ -28,7 +28,7 @@ triggers = !loaded
 rate=3
 
 [module_shesaid]
-triggers = [module_Tt]hat'?s what she said
+triggers = [Tt]hat'?s what she said
 	thats what she said
 rate = 3
 quotesFile = quotes.txt
