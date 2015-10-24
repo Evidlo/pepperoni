@@ -74,4 +74,4 @@ triggers = ^!dict
 [module_topic]
 rate=5
 triggers = ^!topic
-key = AIzaSyBXYuzmUm1On46n5fP_rSFskfcg3dQQ_MQ
+key = calendar_api_key
