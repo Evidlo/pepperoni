@@ -4,14 +4,14 @@
 #separate items on same server with ' ' (whitespace) and items on different servers with ','
 
 [bot]
-owner = Evidlo
-channel = #test 
-host = irc.dtella.net
-nick = pepperoni
-blacklist = 
-logfile = log/dt.log
+owner = yourusername
+channel = #testroom #testroom2,#test
+host = irc.efnet.org,irc.freenode.net
+nick = pepperoni,pepperoni
+blacklist = ,
+logfile = log/efnet.log,log/freenode.log
 loglevel = debug
-password = 
+password = password1,password2
 
 ;Module Settings
 
@@ -77,6 +77,6 @@ triggers = ^!topic
 key = calendar_api_key
 
 [module_duel]
-rate=1
-triggers = ^!duel$
-         ^!bang$
+rate=0
+triggers = ^!duel
+         ^!fire
