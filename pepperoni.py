@@ -67,8 +67,10 @@ class Bot(irc.IRCClient):
                     self.factory.log.debug('Loading module %s'%name)
                     self.modules.append(module(config,self))
 
-            message = "Loaded {0}/{1}".format(len(raw_modules.items())-fail_count,len(raw_modules.items()))
+            load_status = (len(raw_modules.items())-fail_count,len(raw_modules.items()))
+            message = "Loaded {0}/{1}".format(load_status[0],load_status[1])
             self.factory.log.info(message)
+            return reload_success
 
     def joined(self, channel):
         self.factory.log.info("Joined %s." % channel)
