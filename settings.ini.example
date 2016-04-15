@@ -80,3 +80,7 @@ key = calendar_api_key
 rate=0
 triggers = ^!duel
          ^!fire
+
+[module_gnu]
+triggers = ^!gnu
+rate = 3
