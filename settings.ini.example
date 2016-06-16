@@ -84,3 +84,8 @@ triggers = ^!duel
 [module_gnu]
 triggers = ^!gnu
 rate = 3
+
+[module_heathcliff]
+rate = 5
+triggers = ^!garfield
+         ^!heathcliff
