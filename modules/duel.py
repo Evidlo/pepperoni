@@ -29,6 +29,9 @@ class module_duel(botmodule):
 
     def run(self):
         params = self.bot.chat.split(' ')
+        self.bot._pings = None
+        print "Latency",self.bot.ping(self.bot.user)
+        print self.bot._pings
 
         #start the game
         if '!duel' in params and self.opponent == None:
