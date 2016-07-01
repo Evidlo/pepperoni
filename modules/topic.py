@@ -26,9 +26,14 @@ class module_topic(botmodule):
 
         events_text = []
         for event in data['items']:
+            event_text=''
             if 'office hours' not in event['summary'].lower():
                 #read in date, chop off 6 char timezone
-                time = None
+                #apply custom formatting to data
+                if 'summary' in event:
+                    event_text+=event['summary']
+                if 'location' in event:
+                    event_text += ' ' + event['location']
                 if 'start' in event:
                     if 'dateTime' in event['start']:
                         time = datetime.strptime(event['start']['dateTime'][:-6],'%Y-%m-%dT%H:%M:%S')
@@ -36,13 +41,6 @@ class module_topic(botmodule):
                     else:
                         time = datetime.strptime(event['start']['date'],'%Y-%m-%d')
                         event_text += ' - ' + time.strftime('%a., %b. %d')
-
-                #apply custom formatting to data
-                event_text=''
-                if 'summary' in event:
-                    event_text+=event['summary']
-                if 'location' in event:
-                    event_text += ' ' + event['location']
 
                 events_text.append(event_text)
 
