@@ -32,12 +32,15 @@ class module_topic(botmodule):
                 if 'start' in event:
                     if 'dateTime' in event['start']:
                         time = datetime.strptime(event['start']['dateTime'][:-6],'%Y-%m-%dT%H:%M:%S')
+                        event_text += ' - ' + time.strftime('%a., %b. %d, %I:%M%p')
+                    else:
+                        time = datetime.strptime(event['start']['date'],'%Y-%m-%d')
+                        event_text += ' - ' + time.strftime('%a., %b. %d')
+
                 #apply custom formatting to data
                 event_text=''
                 if 'summary' in event:
                     event_text+=event['summary']
-                if time:
-                    event_text += ' - ' + time.strftime('%a., %b. %d, %I:%M%p')
                 if 'location' in event:
                     event_text += ' ' + event['location']
 
