@@ -1,0 +1,11 @@
+[Unit]
+Description=peetsa.service
+After=network.target
+
+[Service]
+RemainAfterExit=yes
+WorkingDirectory=/home/evan/pepperoni
+ExecStart=/usr/bin/screen -d -m -S peetsa /home/evan/pepperoni/venv/bin/python pepperoni.py
+
+[Install]
+WantedBy=multi-user.target
