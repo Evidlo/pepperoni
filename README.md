@@ -4,7 +4,9 @@ Features modular addons, command rate limiting, and addon reloading during runti
 
 =========
 # Dependencies (install through pip)
-    pip install twisted simplejson pygit pyOpenSSL
+    pip install twisted simplejson pygit
+    
+    pyOpenSSL (I recommend installing through distro package manager: python-openssl for Debian, pyOpenSSL for RHEL )
 
 ## Files
 ### pepperoni.py
