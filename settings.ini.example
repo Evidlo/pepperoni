@@ -1,23 +1,31 @@
 ;Bot Settings
 
 
-#separate items on same server with ' ' (whitespace) and items on different servers with ','
+;separate items on same server with ' ' (whitespace) and items on different servers with ','
 
 [bot]
+;user who can control the bot
 owner = yourusername
+;channels to join
 channel = #testroom #testroom2,#test
+;servers to join
 host = irc.efnet.org,irc.freenode.net
+;bot nick per server
 nick = pepperoni,pepperoni
-blacklist = ,
-logfile = log/efnet.log,log/freenode.log
-loglevel = debug
+;bot password per server
 password = password1,password2
+;modules not to load per server
+blacklist = ,
+;log location per server
+logfile = log/efnet.log,log/freenode.log
+;log level
+loglevel = debug
 
 ;Module Settings
 
 ;[name] - put the module name in brackets (modules must begin with 'module_')
 ;rate - specify how many seconds this module should be disabled after being triggered
-;triggers - specify one regular expression per line to trigger module
+;triggers - specify one regular expression per line (indented) to trigger module
 
 [module_reload]
 triggers = !reload
