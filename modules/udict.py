@@ -14,6 +14,7 @@ class module_poodict(botmodule):
                     self.bot.msg(self.bot.channel,message)
             except KeyError:
                     self.log.info('Definition not found')
+                    self.bot.msg(self.bot.channel,'nope')
     def run(self):
             args=self.bot.chat.split(' ')
             if len(args) >= 2:
