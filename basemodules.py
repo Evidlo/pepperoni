@@ -28,7 +28,7 @@ class botmodule(object):
         #log a module getting called and its arguments
         self.log.info('Module {0} called by user {1}'.format(self.name,self.bot.user))
         params = self.bot.chat.split(' ')
-        self.log.info('Arguments: '+params)
+        self.log.info('Arguments: {0}'.format(params))
         #disable the module and schedule a reenable after timeout period 'rate'
         self.enabled = False
         reactor.callLater(self.rate,lambda:self.enable())
