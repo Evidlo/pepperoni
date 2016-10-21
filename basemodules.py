@@ -28,7 +28,7 @@ class botmodule(object):
         #log a module getting called and its arguments
         self.log.info('Module {0} called by user {1}'.format(self.name,self.bot.user))
         params = self.bot.chat.split(' ')
-        self.log.info(params)
+        self.log.info('Arguments: '+params)
         #disable the module and schedule a reenable after timeout period 'rate'
         self.enabled = False
         reactor.callLater(self.rate,lambda:self.enable())
@@ -36,7 +36,7 @@ class botmodule(object):
         if hasattr(self,'run'):
             self.run()
         else:
-            self.log.debug('No "run" function found for this module. Ignoring')
+            self.log.info('No "run" function found for this module. Ignoring')
 
 #reloads this file on !reload command
 class module_reload(botmodule):
