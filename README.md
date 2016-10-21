@@ -21,3 +21,4 @@ Contains settings for the bot and various modules.  Read by ConfigParser
 ## Plans
 - replace twisted-python with tulip for asynchronous functionality
 - replace twisted-python's IRC interface with a custom built one in Go
+- make `!reload pull` reload changes to basemodules.py

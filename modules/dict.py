@@ -10,7 +10,8 @@ class module_dict(botmodule):
         self.bot.msg(self.bot.channel,(':: ' + definition[:25]+definition[25:].split('.')[0])[:150])
     def results_translate(self,json):
         definition = json['tuc'][0]['phrase']['text']
-        self.bot.msg(self.bot.channel,(':: ' + definition[:25]+definition[25:].split('.')[0])[:150])
+        out = definition[:25]+definition[25:].split('.')[0][:150]
+        self.bot.msg(self.bot.channel,(':: ' + out.encode('utf8')))
 
     def run(self):
         definition = ''
