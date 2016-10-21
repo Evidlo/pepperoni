@@ -20,6 +20,8 @@ blacklist = ,
 logfile = log/efnet.log,log/freenode.log
 ;log level
 loglevel = debug
+;set bot modes
+modes = B
 
 ;Module Settings
 
@@ -78,6 +80,7 @@ triggers = ^!pudict
 [module_dict]
 rate=5
 triggers = ^!dict
+         ^!trans
 
 [module_topic]
 rate=5
