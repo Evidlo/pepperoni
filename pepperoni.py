@@ -10,9 +10,12 @@ import traceback
 import logging
 import re
 import os
+import sys
+from datetime import datetime, timedelta
 
 
 class Bot(irc.IRCClient):
+
 
     def _get_nickname(self):
         return self.factory.nickname
@@ -111,6 +114,27 @@ class Bot(irc.IRCClient):
     def action(self, user, channel, chat):
         self.privmsg(user, channel, chat)
 
+    # queue of in-flight pings and what module to call when they arrive
+    # ping_queue = [{'user':foo_user,'module':module_foo.pong,'time':datetime_object}]
+    ping_queue = []
+    def append_ping_queue(self,user,pong_function):
+        self.ping_queue.append({'user':user,'function':pong_function,'time':datetime.now()})
+        # remove old entries from ping_queue
+        self.ping_queue = [ping for ping in self.ping_queue if (datetime.now() - ping['time']) < timedelta(seconds = 30)]
+
+    # call respective module pong functions when a pong is received
+    def pong(self, user, secs, text=None):
+        self.factory.log.debug('Received pong from {0}: {1}s'.format(user, secs))
+        user = user.split('!')[0]
+        # delete from ping_queue and call function
+        for index,ping in enumerate(self.ping_queue):
+            if ping['user'] == user:
+               function = ping['function']
+               self.factory.log.debug('Found a record for {0} in ping_queue.  Calling function {1}'.format(user, function))
+               del self.ping_queue[index]
+               function(user=user,latency=secs)
+               break
+
 
 class BotFactory(protocol.ClientFactory):
     protocol = Bot
@@ -180,7 +204,11 @@ if __name__ == "__main__":
         # set log file
         log = logging.getLogger(instance['logfile'])
         log.setLevel(logmode)
-        fh = logging.FileHandler(instance['logfile'])
+        # support stdout or file logging
+        if instance['logfile'] == 'stdout':
+            fh = logging.StreamHandler(sys.stdout)
+        else:
+            fh = logging.FileHandler(instance['logfile'])
         fh.setLevel(logmode)
         fh.setFormatter(logging.Formatter('%(asctime)s :: %(message)s'))
         log.addHandler(fh)
