@@ -46,6 +46,7 @@ class Bot(irc.IRCClient):
         module_dir = 'modules'
         raw_modules = {}
         fail_count = 0
+        module_count = 0
 
         self.factory.log.debug('Loading modules...')
         self.factory.log.debug('Using blacklist: ' +
@@ -65,10 +66,11 @@ class Bot(irc.IRCClient):
             for file in os.listdir(module_dir):
                 if file.endswith('.py'):
                     # import all data from each .py
+                    module_count += 1
                     try:
                         execfile(os.path.join(module_dir, file), raw_modules)
                     except:
-                        fail_count+=1
+                        fail_count += 1
                         self.factory.log.info("Failed to load module: {0}".format(file))
                         traceback.print_exc()
             for name,module in raw_modules.items():
@@ -81,8 +83,9 @@ class Bot(irc.IRCClient):
                     self.factory.log.debug('Loading module %s'%name)
                     self.modules.append(module(config, self))
 
-            load_status = (len(raw_modules.items())-fail_count, len(raw_modules.items()))
-            message = "Loaded {0}/{1}".format(load_status[0], load_status[1])
+            # load_status = (len(raw_modules.items())-fail_count, len(raw_modules.items()))
+            load_status = (module_count - fail_count, module_count)
+            message = "Loaded {0}/{1} modules".format(load_status[0], load_status[1])
             self.factory.log.info(message)
             return load_status
 
@@ -136,7 +139,7 @@ class Bot(irc.IRCClient):
                break
 
 
-class BotFactory(protocol.ClientFactory):
+class BotFactory(protocol.ReconnectingClientFactory):
     protocol = Bot
     config = ConfigParser()
     config.read('settings.ini')
@@ -151,10 +154,11 @@ class BotFactory(protocol.ClientFactory):
 
     def clientConnectionLost(self, connector, reason):
         self.log.info("Connection lost. Reason: %s" % reason)
-        connector.connect()
+        protocol.ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
 
     def clientConnectionFailed(self, connector, reason):
         self.log.info("Connection failed. Reason: %s" % reason)
+        protocol.ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
 
 
 if __name__ == "__main__":
