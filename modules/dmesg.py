@@ -9,7 +9,8 @@ class module_dmesg(botmodule):
         self.bot.msg(self.bot.channel, 'Round trip latency to {0}: {1}s'.format(user, latency))
 
     def run(self):
+        user = self.bot.user
         self.log.debug('pinging...')
-        self.bot.ping('Evidlo','fart')
-        self.bot.append_ping_queue('Evidlo', self.pong)
+        self.bot.ping(user,'ping')
+        self.bot.append_ping_queue(user, self.pong)
         self.bot.msg(self.bot.channel,'boggle...')
