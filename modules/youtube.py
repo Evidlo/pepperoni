@@ -4,7 +4,7 @@ import simplejson
 import re
 from basemodules import botmodule
 
-#gets statistics for youtube links - title, rating, views
+# get statistics for youtube links - title, rating, views
 class module_youtube(botmodule):
     def init(self):
         self.key = self.bot.factory.config.get('module_youtube','key')

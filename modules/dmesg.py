@@ -2,7 +2,7 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from basemodules import botmodule
 
-#dmesg
+# simple debug test to calculate latency to user and verify peetsa is online
 class module_dmesg(botmodule):
     def pong(self,user=None,latency=None):
         self.log.debug('Pong called with user={0}, time={1}'.format(user,latency))

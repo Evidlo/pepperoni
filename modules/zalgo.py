@@ -2,7 +2,7 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from basemodules import botmodule
 
-#converts text to zalgo using table in zalgo_dict.py
+# converts text to zalgo using table in zalgo_dict.py
 class module_zalgo(botmodule):
 	def init(self):
 		zalgo_dict={}

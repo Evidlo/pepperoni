@@ -3,7 +3,7 @@ from twisted.web.client import getPage
 from basemodules import botmodule
 import urllib2
 
-#heathcliff
+# get latest heathcliff comic link
 class module_heathcliff(botmodule):
     def run(self):
         from lxml import etree

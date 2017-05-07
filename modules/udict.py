@@ -10,6 +10,7 @@ class module_poodict(botmodule):
             self.log.info(json)
             try:
                     definition = json['list'][0]['definition']
+                    # truncate message to first period after 75 chars
                     message = ':: ' + definition[:75] + definition[75:].split('.')[0]
                     self.bot.msg(self.bot.channel,message)
             except KeyError:

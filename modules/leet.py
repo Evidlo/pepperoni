@@ -2,7 +2,7 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from basemodules import botmodule
 
-#convert text to 1337
+# convert text to leetspeak and back
 class module_leet(botmodule):
 	def init(self):
 		self.leet = {'a':'4','b':'8','c':'(','d':')','e':'3','g':'6','h':'#','i':'1','l':'|','o':'0','s':'5','t':'7','w':'vv','4':'a','8':'b','(':'c',')':'d','3':'e','6':'g','#':'h','1':'i','|':'l','0':'o','5':'s','7':'t','vv':'w'}

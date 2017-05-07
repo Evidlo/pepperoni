@@ -3,7 +3,10 @@ from twisted.web.client import getPage
 from basemodules import botmodule
 import simplejson
 
-#get regular definitions from glosbe dictionary
+# look up definitions or translations using glosbe api
+# e.g.
+#   !dict foobar
+#   !trans en jp hello
 class module_dict(botmodule):
     def results_dictionary(self,json):
         definition = json['tuc'][0]['meanings'][0]['text']

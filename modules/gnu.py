@@ -2,7 +2,7 @@ from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from basemodules import botmodule
 
-#xzibit dat stuff
+# fill in a stallman quote with your favorite word
 class module_gnu(botmodule):
 	def run(self):
 		words = self.bot.chat.split(' ')
