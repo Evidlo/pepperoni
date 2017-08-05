@@ -89,6 +89,7 @@ key = calendar_api_key
 
 [module_duel]
 rate=0
+timeout=5
 triggers = ^!duel
          ^!fire
 
