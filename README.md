@@ -3,10 +3,14 @@ An IRC bot I wrote using python-twisted.
 
 Features modular addons, command rate limiting, and addon reloading during runtime.
 
-## Dependencies (install through pip)
-    pip install twisted GitPython
+## Dependencies
+### Pip
+    twisted GitPython
+### Fedora
+    pyOpenSSL
+### Debian
+    python-openssl
     
-    pyOpenSSL (I recommend installing through distro package manager: python-openssl for Debian, pyOpenSSL for RHEL )
 
 ## Files
 ### pepperoni.py
