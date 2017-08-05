@@ -92,6 +92,10 @@ rate=0
 timeout=5
 triggers = ^!duel
          ^!fire
+easy = 1
+medium = .5
+hard = .35
+clinteastwood = .1
 
 [module_gnu]
 triggers = ^!gnu
