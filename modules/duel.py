@@ -7,13 +7,13 @@ import random
 class module_duel(botmodule):
     # load ping timeout and difficulty times from config
     def init(self):
-        self.timeout = float(self.config.get(self.name,'timeout'))
+        self.timeout = float(self.bot.config.get(self.name,'timeout'))
 
-        # easy = float(self.config.get(self.name,'easy'))
+        # easy = float(self.bot.config.get(self.name,'easy'))
         easy = 1
-        medium = float(self.config.get(self.name,'medium'))
-        hard = float(self.config.get(self.name,'hard'))
-        clint = float(self.config.get(self.name,'clinteastwood'))
+        medium = float(self.bot.config.get(self.name,'medium'))
+        hard = float(self.bot.config.get(self.name,'hard'))
+        clint = float(self.bot.config.get(self.name,'clinteastwood'))
         self.difficulties = {'easy':easy,'medium':medium,'hard':hard,'clinteastwood':clint}
         self.opponent = None
         self.difficulty = ('easy',self.difficulties['easy'])

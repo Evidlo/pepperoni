@@ -9,7 +9,7 @@ import urllib
 #updates the topic with the latest events from the Purdue Linux Users Group Calendar
 class module_topic(botmodule):
     def init(self):
-        self.key = self.config.get(self.name,'key')
+        self.key = self.bot.config.get(self.name,'key')
 
     def run(self):
         #Current datetime for calculating which events have not occured

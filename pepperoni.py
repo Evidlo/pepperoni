@@ -43,6 +43,7 @@ class Bot(irc.IRCClient):
     # loads user written modules
     def loadModules(self):
         self.modules = []
+        self.config = self.factory.config
         module_dir = 'modules'
         raw_modules = {}
         fail_count = 0
@@ -54,7 +55,8 @@ class Bot(irc.IRCClient):
 
         try:
             # reload module settings
-            config.read('settings.ini')
+            self.config.read('settings.ini')
+            print("youtube_key:{}".format(config.get('module_youtube', 'key')))
         except Exception as e:
             self.factory.log.info("Error reading config")
             self.factory.log.debug(e)
@@ -111,6 +113,7 @@ class Bot(irc.IRCClient):
             if module.enabled:
                 for trigger in module.triggers:
                     if re.search(trigger, chat):
+                        self.factory.log.debug("Calling module: {}".format(module))
                         module.__run__()
                         return
 
@@ -141,8 +144,6 @@ class Bot(irc.IRCClient):
 
 class BotFactory(protocol.ReconnectingClientFactory):
     protocol = Bot
-    config = ConfigParser()
-    config.read('settings.ini')
 
     def __init__(self, channels, nickname, password, blacklist, log, modes):
         self.channels = channels
@@ -151,6 +152,8 @@ class BotFactory(protocol.ReconnectingClientFactory):
         self.log = log
         self.password = password
         self.modes = modes
+        self.config = ConfigParser()
+        self.config.read('settings.ini')
 
     def clientConnectionLost(self, connector, reason):
         self.log.info("Connection lost. Reason: %s" % reason)

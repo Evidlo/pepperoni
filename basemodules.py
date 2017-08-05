@@ -13,7 +13,6 @@ class botmodule(object):
         self.name = ''.join(self.__class__.__name__)
         self.rate = int(config.get(self.name,'rate',0))
         self.bot = bot
-        self.config = config
         self.log = self.bot.factory.log
         triggers = config.get(self.name,'triggers')
         self.triggers = triggers.split('\n')

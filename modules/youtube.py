@@ -6,10 +6,11 @@ from basemodules import botmodule
 
 # get statistics for youtube links - title, rating, views
 class module_youtube(botmodule):
+
     def init(self):
-        self.key = self.bot.factory.config.get('module_youtube','key')
+        self.key = self.bot.config.get('module_youtube','key')
+
     def run(self):
-        
         video_id = re.match(".*?v=([a-zA-Z0-9_-]{11}).*",str(self.bot.chat))
         if video_id:
             video_id = video_id.group(1)
