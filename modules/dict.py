@@ -1,7 +1,7 @@
 from twisted.internet import reactor, defer
 from twisted.web.client import getPage
 from basemodules import botmodule
-import simplejson
+import json
 
 # look up definitions or translations using glosbe api
 # e.g.
@@ -24,7 +24,7 @@ class module_dict(botmodule):
                 self.log.debug('Definition lookup requested')
                 url='http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + args[1]
                 self.log.debug('Getting url: '+url)
-                getPage(url).addCallback(simplejson.loads).addCallback(self.results_dictionary)
+                getPage(url).addCallback(json.loads).addCallback(self.results_dictionary)
             if args[0] == '!trans':
                 if len(args) >= 4:
                     self.log.debug('Translation requested')
@@ -33,5 +33,5 @@ class module_dict(botmodule):
                     phrase = args[3]
                     url='http://glosbe.com/gapi/translate?from={0}&dest={1}&format=json&phrase={2}'.format(from_lang,to_lang,phrase)
                     self.log.debug('Getting url: '+url)
-                    getPage(url).addCallback(simplejson.loads).addCallback(self.results_translate)
+                    getPage(url).addCallback(json.loads).addCallback(self.results_translate)
 

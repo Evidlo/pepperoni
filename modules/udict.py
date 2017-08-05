@@ -1,6 +1,6 @@
 from twisted.internet import reactor, defer
 from twisted.web.client import getPage
-import simplejson
+import json
 from basemodules import botmodule
 
 #urban dictionary definition grabber
@@ -22,5 +22,5 @@ class module_poodict(botmodule):
                     word='%20'.join(args[1:])
                     url = "http://api.urbandictionary.com/v0/define?term="+word
                     self.log.info(url)
-                    json = simplejson.load(urllib.urlopen(url))
-                    getPage(url).addCallback(simplejson.loads).addCallback(self.results)
+                    json = json.load(urllib.urlopen(url))
+                    getPage(url).addCallback(json.loads).addCallback(self.results)

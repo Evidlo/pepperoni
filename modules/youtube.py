@@ -1,6 +1,6 @@
 from twisted.internet import reactor, defer
 from twisted.web.client import getPage
-import simplejson
+import json
 import re
 from basemodules import botmodule
 
@@ -17,7 +17,7 @@ class module_youtube(botmodule):
             url = 'http://gdata.youtube.com/feeds/api/videos/%s?alt=json&v=2' % id 
             url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2Cstatistics&id={0}&key={1}'.format(video_id,self.key)
             self.log.debug('Getting URL: {0}'.format(url))
-            getPage(url).addCallback(simplejson.loads).addCallback(self.results)
+            getPage(url).addCallback(json.loads).addCallback(self.results)
 
     def results(self,video):
             #if ratings exist, calculate percent upvote

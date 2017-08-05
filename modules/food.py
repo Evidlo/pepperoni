@@ -1,6 +1,6 @@
 from twisted.internet import reactor, defer
 from twisted.web.client import getPage
-import simplejson
+import json
 from datetime import datetime,timedelta
 from basemodules import botmodule
 
@@ -24,7 +24,7 @@ class module_food(botmodule):
 	#update cache for specified dining court
 	def updateCache(self, court, day):
 		self.log.debug("Updating cache: court - {0} : day - {1}".format(court.title(),day.strftime('%Y-%m-%d')))
-		return self.getJSONWeb(court,day).addCallback(simplejson.loads).addCallback(self.updateCacheCallback,court,day)
+		return self.getJSONWeb(court,day).addCallback(json.loads).addCallback(self.updateCacheCallback,court,day)
 
 	#once requested json is downloaded, add it to the cache
 	def updateCacheCallback(self,json,court,day):
@@ -62,7 +62,7 @@ class module_food(botmodule):
 
 		#if user requests meal for any other day, download it
 		else:
-			return self.getJSONWeb(court,day).addCallback(simplejson.loads)
+			return self.getJSONWeb(court,day).addCallback(json.loads)
 
 	def run(self):
 		params = self.bot.chat.split(' ')
