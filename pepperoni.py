@@ -56,7 +56,6 @@ class Bot(irc.IRCClient):
         try:
             # reload module settings
             self.config.read('settings.ini')
-            print("youtube_key:{}".format(config.get('module_youtube', 'key')))
         except Exception as e:
             self.factory.log.info("Error reading config")
             self.factory.log.debug(e)
