@@ -17,14 +17,17 @@ class module_duel(botmodule):
         self.difficulties = {'easy':easy,'medium':medium,'hard':hard,'clinteastwood':clint}
         self.opponent = None
         self.difficulty = ('easy',self.difficulties['easy'])
+        self.fireCallback = None
+        self.drawCallback = None
+        self.pingtimeoutCallback = None
 
     # handle pong
     def pong(self,user=None,latency=None):
-        self.pingtimeoutCallback.cancel()
         self.latency = latency
-        self.log.debug('Pong called with user={0}, time={1}'.format(user,self.latency))
-        self.bot.msg(self.bot.channel, "PONG")
-        self.fireCallback = reactor.callLater(self.difficulty[1],lambda:self.fire(self.latency))
+        self.log.debug('Pong called with user={0}, time={1}'.format(user, self.latency))
+        self.log.debug("Opponent is {}".format(self.opponent))
+        if self.opponent:
+            self.fireCallback = reactor.callLater(self.difficulty[1], lambda:self.fire(self.latency))
 
     # if the ping is never answered, reset the game
     def ping_timeout(self):
@@ -34,26 +37,24 @@ class module_duel(botmodule):
     #reset game
     def reset(self):
         self.opponent = None
-        # self.fireCallback = None
-        # self.drawCallback = None
         for callback in (self.fireCallback, self.drawCallback, self.pingtimeoutCallback):
-            if not callback.cancelled and not callback.called:
+            if callback and not callback.cancelled and not callback.called:
                 callback.cancel()
-        self.difficulty = ('easy',self.difficulties['easy'])
+        self.difficulty = ('easy', self.difficulties['easy'])
 
     def draw(self):
         # self.bot.msg(self.bot.channel,'\001ACTION %s\001' % "DRAW")
         self.bot.msg(self.bot.channel, "DRAW")
         self.log.debug('draw')
         self.bot.ping('Evidlo')
-        self.pingtimeoutCallback = reactor.callLater(self.timeout,lambda:self.ping_timeout())
+        self.pingtimeoutCallback = reactor.callLater(self.timeout, lambda:self.ping_timeout())
 
     #the bot fires
     def fire(self, latency):
         # self.bot.msg(self.bot.channel,'\001ACTION %s\001' % "*bang*")
         self.bot.msg(self.bot.channel, "*bang*")
         self.log.debug('fire')
-        self.bot.msg(self.bot.channel,'Nobody messes with Dirty Dan... (Game Over)')
+        self.bot.msg(self.bot.channel, 'Nobody messes with Dirty Dan... (Game Over)')
         self.reset()
 
     def run(self):
@@ -63,7 +64,8 @@ class module_duel(botmodule):
             #set the difficulty if specified
             if len(params) >= 2 and params[1].lower() in self.difficulties:
                 self.difficulty = (params[1], self.difficulties[params[1].lower()])
-            self.bot.append_ping_queue('Evidlo', self.pong)
+            self.bot.ping(self.bot.user, 'ping')
+            self.bot.append_ping_queue(self.bot.user, self.pong)
             self.bot.msg(self.bot.channel,'\001ACTION sizes up {0}. \001'.format(self.bot.user))
             self.opponent = self.bot.user
             self.bot.msg(self.bot.channel,

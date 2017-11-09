@@ -122,7 +122,8 @@ class Bot(irc.IRCClient):
     # queue of in-flight pings and what module to call when they arrive
     # ping_queue = [{'user':foo_user,'module':module_foo.pong,'time':datetime_object}]
     ping_queue = []
-    def append_ping_queue(self,user,pong_function):
+    def append_ping_queue(self, user, pong_function):
+        self.factory.log.debug("Pinging user " + user)
         self.ping_queue.append({'user':user,'function':pong_function,'time':datetime.now()})
         # remove old entries from ping_queue
         self.ping_queue = [ping for ping in self.ping_queue if (datetime.now() - ping['time']) < timedelta(seconds = 30)]
