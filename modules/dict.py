@@ -16,22 +16,25 @@ class module_dict(botmodule):
         out = definition[:25]+definition[25:].split('.')[0][:150]
         self.bot.msg(self.bot.channel,(':: ' + out.encode('utf8')))
 
+    def results_failed(self, error):
+        self.log.error("Failed to get page with error: {}".format(error))
+
     def run(self):
         definition = ''
         args=self.bot.chat.split(' ')
         if len(args) >= 2:
             if args[0] == '!dict':
                 self.log.debug('Definition lookup requested')
-                url='http://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + args[1]
+                url='https://glosbe.com/gapi/translate?from=eng&dest=eng&format=json&phrase=' + args[1]
                 self.log.debug('Getting url: '+url)
-                getPage(url).addCallback(json.loads).addCallback(self.results_dictionary)
+                getPage(url).addCallback(json.loads, errback=self.results_failed).addCallback(self.results_dictionary)
             if args[0] == '!trans':
                 if len(args) >= 4:
                     self.log.debug('Translation requested')
                     from_lang = args[1]
                     to_lang = args[2]
                     phrase = args[3]
-                    url='http://glosbe.com/gapi/translate?from={0}&dest={1}&format=json&phrase={2}'.format(from_lang,to_lang,phrase)
+                    url='https://glosbe.com/gapi/translate?from={0}&dest={1}&format=json&phrase={2}'.format(from_lang,to_lang,phrase)
                     self.log.debug('Getting url: '+url)
-                    getPage(url).addCallback(json.loads).addCallback(self.results_translate)
+                    getPage(url).addCallback(json.loads, errback=self.results_failed).addCallback(self.results_translate)
 

@@ -21,6 +21,7 @@ class module_topic(botmodule):
         #grab data from api
         try:
             data = json.load(urllib.urlopen(url))
+            self.log.debug(data)
         except:
             self.log.info('Unable to fetch Gcal results')
 
